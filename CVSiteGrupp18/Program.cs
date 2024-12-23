@@ -1,7 +1,20 @@
+using CVSiteGrupp18.Models;
+using CVSiteGrupp18.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Kopplar till databasen
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+//Kopplar till identitet
+builder.Services.AddIdentity<Anvandare, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -19,6 +32,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
@@ -26,9 +40,3 @@ app.MapControllerRoute(
 
 app.Run();
 
-//hej
-
-//pushar
-//test
-//123123123
-//Kommentar succe
