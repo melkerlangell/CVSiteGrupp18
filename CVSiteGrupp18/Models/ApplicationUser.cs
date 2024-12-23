@@ -2,7 +2,8 @@
 
 namespace CVSiteGrupp18.Models
 {
-    public class Anvandare : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
+
     }
 }

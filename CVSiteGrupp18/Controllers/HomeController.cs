@@ -1,6 +1,7 @@
-using CVSiteGrupp18.Models;
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using CVSiteGrupp18.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CVSiteGrupp18.Controllers
 {
@@ -13,10 +14,14 @@ namespace CVSiteGrupp18.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             return View();
         }
+
+        
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
