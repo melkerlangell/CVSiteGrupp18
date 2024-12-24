@@ -1,8 +1,9 @@
 ﻿@model LogInViewModel
 
 <h2>Logga in</h2>
+<div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Login" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    
 
     <div class="form-group">
         <label asp-for="Email"></label>
@@ -11,7 +12,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Password"></label>
+        <label>Lösenord:</label>
         <input asp-for="Password" class="form-control" />
         
     </div>
@@ -19,7 +20,7 @@
     <div class="form-group">
         <div class="form-check">
             <input asp-for="RememberMe" class="form-check-input" />
-            <label asp-for="RememberMe" class="form-check-label"></label>
+            <label  class="form-check-label">Kom ihåg mig</label>
         </div>
     </div>
 
