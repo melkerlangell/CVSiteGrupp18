@@ -23,7 +23,10 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="EditProfile">Profil</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserLandingPage">Hem</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="EditProfile">Redigera profil</a>
                             </li>
                             <li class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
@@ -31,12 +34,8 @@
                                 </form>
                             </li>
                         }else{
-                            
                             <li class="nav-item">
-                               <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                            </li>
-                            <li class="nav-item">
-                               <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserLandingPage">Utforska</a>
+                               <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserLandingPage">Logga in</a>
                             </li>
                         }
                         </ul>
