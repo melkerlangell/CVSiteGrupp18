@@ -80,5 +80,86 @@ namespace CVSiteGrupp18.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult EditProfile()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.UserName) && model.UserName != user.UserName)
+            {
+                user.UserName = model.UserName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
+            {
+                user.Email = model.Email;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Address) && model.Address != user.Address)
+            {
+                user.Address = model.Address;
+            }
+
+            if (model.IsPublic != user.IsPublic)
+            {
+                user.IsPublic = model.IsPublic;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                if (string.IsNullOrWhiteSpace(model.CurrentPassword))
+                {
+                    ModelState.AddModelError("CurrentPassword", "Nuvarande lösenord krävs för att ändra lösenord.");
+                }
+                else if (model.NewPassword != model.ConfirmNewPassword)
+                {
+                    ModelState.AddModelError("ConfirmNewPassword", "Det nya lösenordet stämmer inte överens med det bekräftade lösenordet");
+                }
+                else
+                {
+                    var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                    if (!passwordChangeResult.Succeeded)
+                    {
+                        foreach (var error in passwordChangeResult.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(model);
+                    }
+                }
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
+            return RedirectToAction("UserLandingPage", "Account");
+        }
+
+
     }
 }

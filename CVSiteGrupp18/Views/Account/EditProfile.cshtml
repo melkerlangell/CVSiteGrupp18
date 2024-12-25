@@ -1,0 +1,44 @@
+﻿@model EditProfileViewModel
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form asp-action="EditProfile" method="post" class="needs-validation" novalidate>
+    <div class="mb-3">
+        <label for="UserName" class="form-label">Användarnamn:</label>
+        <input asp-for="UserName" id="UserName" class="form-control" placeholder="Lämna tom ifall du inte vill ändra" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">E-mail:</label>
+        <input asp-for="Email" id="Email" class="form-control" placeholder="Lämna tom ifall du inte vill ändra" />
+    </div>
+
+    <div class="mb-3">
+        <label for="Address" class="form-label">Adress:</label>
+        <input asp-for="Address" id="Address" class="form-control" placeholder="Lämna tom ifall du inte vill ändra" />
+    </div>
+
+    <div class="form-check mb-3">
+        <input asp-for="IsPublic" type="checkbox" id="IsPublic" class="form-check-input" />
+        <label for="IsPublic" class="form-check-label">Offentlig profíl</label>
+    </div>
+
+    <hr />
+    <h3>Redigera lösenord</h3>
+    <div class="mb-3">
+        <label for="CurrentPassword" class="form-label">Nuvarande lösenord (Krävs för att ändra lösenordet)</label>
+        <input asp-for="CurrentPassword" id="CurrentPassword" class="form-control" type="password" />
+    </div>
+
+    <div class="mb-3">
+        <label for="NewPassword" class="form-label">Nytt lösenord</label>
+        <input asp-for="NewPassword" id="NewPassword" class="form-control" type="password" />
+    </div>
+
+    <div class="mb-3">
+        <label for="ConfirmNewPassword" class="form-label">Bekräfta nytt lösenord</label>
+        <input asp-for="ConfirmNewPassword" id="ConfirmNewPassword" class="form-control" type="password" />
+    </div>
+
+    <hr />
+    <button type="submit" class="btn btn-primary">Spara ändringar</button>
+</form>
