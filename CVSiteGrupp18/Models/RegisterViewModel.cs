@@ -20,5 +20,11 @@ namespace CVSiteGrupp18.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Lösenordet matchar inte det du angav")]
         public string ConfirmPassword { get; set; }
+
+        [Required(ErrorMessage = "Ange din adress"), MaxLength(100)]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "Ange om din profil är publik")]
+        public bool isPublic { get; set; }
     }
 }

@@ -28,7 +28,7 @@ namespace CVSiteGrupp18.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Address = model.Address, IsPublic = model.isPublic };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -55,13 +55,13 @@ namespace CVSiteGrupp18.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("UserLandingPage", "Account");
                 }
 
-                ModelState.AddModelError(string.Empty, "Fel vid inloggning");
+                ModelState.AddModelError(string.Empty, "Kunde inte logga in");
             }
 
             return View(model);

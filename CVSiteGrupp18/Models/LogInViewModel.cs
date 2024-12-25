@@ -4,9 +4,8 @@ namespace CVSiteGrupp18.Models
 {
     public class LogInViewModel
     {
-        [Required(ErrorMessage ="Ange din e-mail")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Required(ErrorMessage ="Ange ditt användarnamn")]
+        public string UserName { get; set; }
 
         [Required(ErrorMessage ="Ange ditt lösenord")]
         [DataType(DataType.Password)]
