@@ -11,7 +11,7 @@ namespace CVSiteGrupp18.Models
         [PersonalData]
         public bool IsPublic { get; set; }
 
-        [PersonalData]
-        public string? ProfilePicture { get; set; }
+        
+        public string? ProfilePicture { get; set; } = "default.jpg";
     }
 }
