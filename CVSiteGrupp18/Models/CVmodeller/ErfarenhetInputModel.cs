@@ -12,6 +12,7 @@ namespace CVSiteGrupp18.Models.CVmodeller
         [MaxLength(100)]
         public string Roll { get; set; }
 
+        [Required(ErrorMessage = "Beskrivning är obligatoriskt.")]
         public string Beskrivning { get; set; }
 
         [Required]

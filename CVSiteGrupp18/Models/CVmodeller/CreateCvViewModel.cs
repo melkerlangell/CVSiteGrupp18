@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using CVSiteGrupp18.Models.CVmodeller;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CVSiteGrupp18.Models.CV.CV
 {
@@ -10,9 +11,8 @@ namespace CVSiteGrupp18.Models.CV.CV
         public string Titel { get; set; }
 
         [Required(ErrorMessage = "Minst en kompetens måste anges.")]
-        public List<string> Kompetenser { get; set; } = new List<string>();
+        public List<string> Kompetenser { get; set; } = new List<string>() { string.Empty};
 
-        public List<string> FöreslagnaKompetenser { get; set; } = new List<string>();
 
         [Required(ErrorMessage = "Utbildningar är obligatoriska.")]
         public List<UtbildningInputModel> Utbildningar { get; set; } = new List<UtbildningInputModel>();

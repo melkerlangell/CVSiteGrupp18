@@ -21,7 +21,7 @@ namespace CVSiteGrupp18.Models.CVmodeller
         [Required]
         public DateTime StartDatum { get; set; }
 
-        public DateTime? SlutDatum { get; set; } // Kan vara null om rollen pågår
+        public DateTime? SlutDatum { get; set; } 
 
         [Required]
         [ForeignKey("Cv")]

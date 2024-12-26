@@ -1,0 +1,100 @@
+﻿@model CVSiteGrupp18.Models.CV.CV.CreateCvViewModel
+@{
+    ViewData["Title"] = "Skapa CV";
+}
+
+<script defer src="~/js/createcv.js"></script>
+
+<h1 class="text-center my-4">Skapa nytt CV</h1>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" asp-action="SkapaCv" class="container">
+    <div class="mb-3">
+        <label for="Titel" class="form-label">Titel:</label>
+        <input asp-for="Titel" class="form-control" id="Titel" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Kompetenser:</label>
+        <div id="kompetenser-container">
+            @for (int i = 0; i < Model.Kompetenser.Count; i++)
+            {
+                <div class="input-group mb-2">
+                    <input asp-for="Kompetenser[i]" class="form-control" />
+                    <button type="button" class="btn btn-danger" onclick="removeField(this)">Ta bort</button>
+                </div>
+            }
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addKompetens()">Lägg till kompetens</button>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Utbildning:</label>
+        <div id="utbildningar-container">
+            @for (int i = 0; i < Model.Utbildningar.Count; i++)
+            {
+                <div class="border p-3 mb-3">
+                    <div class="mb-2">
+                        <label class="form-label">Lärosäte:</label>
+                        <input asp-for="Utbildningar[i].Skola" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Titel:</label>
+                        <input asp-for="Utbildningar[i].Titel" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Startdatum:</label>
+                        <input asp-for="Utbildningar[i].Startdatum" type="date" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Slutdatum:</label>
+                        <input asp-for="Utbildningar[i].Slutdatum" type="date" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeField(this)">Ta bort</button>
+                </div>
+            }
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addUtbildning()">Lägg till utbildning</button>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Arbetslivserfarenhet:</label>
+        <div id="erfarenheter-container">
+            @for (int i = 0; i < Model.Erfarenheter.Count; i++)
+            {
+                <div class="border p-3 mb-3">
+                    <div class="mb-2">
+                        <label class="form-label">Företag:</label>
+                        <input asp-for="Erfarenheter[i].Företag" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Roll:</label>
+                        <input asp-for="Erfarenheter[i].Roll" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Beskrivning:</label>
+                        <textarea asp-for="Erfarenheter[i].Beskrivning" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Startdatum:</label>
+                        <input asp-for="Erfarenheter[i].Startdatum" type="date" class="form-control" />
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Slutdatum:</label>
+                        <input asp-for="Erfarenheter[i].Slutdatum" type="date" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="removeField(this)">Ta bort</button>
+                </div>
+            }
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addErfarenhet()">Lägg till erfarenhet</button>
+    </div>
+
+    <div class="d-grid">
+        <button type="submit" class="btn btn-success">Spara CV</button>
+    </div>
+</form>
+
+
+
+

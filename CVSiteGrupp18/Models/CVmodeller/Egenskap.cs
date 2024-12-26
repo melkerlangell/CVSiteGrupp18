@@ -12,9 +12,6 @@ namespace CVSiteGrupp18.Models.CVmodeller
         [MaxLength(100)]
         public string Namn { get; set; }
 
-        [MaxLength(50)]
-        public string Nivå { get; set; }
-
         [Required]
         [ForeignKey("Cv")]
         public int CvId { get; set; }

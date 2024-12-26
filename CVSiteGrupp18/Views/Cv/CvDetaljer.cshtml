@@ -1,0 +1,68 @@
+﻿@model CVSiteGrupp18.Models.CVmodeller.CV
+
+@{
+    ViewData["Title"] = "Cv Detaljer";
+}
+
+<h1 class="text-center my-4">Ditt CV</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center">Titel: @Model.Titel</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Egenskaper:</h3>
+            <ul class="list-group">
+                @foreach (var egenskap in Model.Egenskaper)
+                {
+                    <li class="list-group-item">@egenskap.Namn</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Utbildningar:</h3>
+            <ul class="list-group">
+                @foreach (var utbildning in Model.Utbildningar)
+                {
+                    <li class="list-group-item">
+                        <h4>@utbildning.Skola</h4>
+                        <p>@utbildning.Titel</p>
+                        <p>Startdatum: @utbildning.StartDatum.ToShortDateString()</p>
+                        <p>Slutdatum: @utbildning.SlutDatum?.ToShortDateString()</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Arbetslivserfarenheter:</h3>
+            <ul class="list-group">
+                @foreach (var erfarenhet in Model.Erfarenheter)
+                {
+                    <li class="list-group-item">
+                        <h4>@erfarenhet.Arbetsplats</h4>
+                        <p>@erfarenhet.Roll</p>
+                        <p>@erfarenhet.Beskrivning</p>
+                        <p>Startdatum: @erfarenhet.StartDatum.ToShortDateString()</p>
+                        <p>Slutdatum: @erfarenhet.SlutDatum?.ToShortDateString()</p>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a class="btn btn-primary" asp-controller="Account" asp-action="UserLandingPage">OK</a>
+        </div>
+    </div>
+</div>

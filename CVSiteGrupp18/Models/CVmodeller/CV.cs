@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CVSiteGrupp18.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace CVSiteGrupp18.Models.CVmodeller
 {
@@ -19,6 +20,7 @@ namespace CVSiteGrupp18.Models.CVmodeller
         public virtual ApplicationUser User { get; set; }
 
         public virtual ICollection<Egenskap> Egenskaper { get; set; } = new List<Egenskap>();
+        
         public virtual ICollection<Utbildning> Utbildningar { get; set; } = new List<Utbildning>();
         public virtual ICollection<Erfarenhet> Erfarenheter { get; set; } = new List<Erfarenhet>();
     }
