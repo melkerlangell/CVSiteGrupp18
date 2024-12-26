@@ -10,5 +10,8 @@ namespace CVSiteGrupp18.Models
         public string Address { get; set; }
         [PersonalData]
         public bool IsPublic { get; set; }
+
+        [PersonalData]
+        public string? ProfilePicture { get; set; }
     }
 }
