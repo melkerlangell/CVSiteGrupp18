@@ -363,5 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 
-# ConnectionString för dem med MacBook
+# ConnectionString fï¿½r dem med MacBook
 appsettings.json
+CVSiteGrupp18/appsettings.json
