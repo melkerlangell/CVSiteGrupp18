@@ -1,9 +1,23 @@
-﻿@model CVSiteGrupp18.Models.Projektmodeller.CreateProjectViewModel
+﻿@model CVSiteGrupp18.Models.Projektmodeller.CreateProject
 
-@{
-
-    <div>
+<div>
     <h1>Skapa projekt</h1>
-    </div>
+</div>
 
+<form asp-action="SkapaProjekt" method="post">
+    <div class="form-group">
+        <label for="Title">Titel</label>
+        <input type="text" asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Description">Beskrivning</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Skapa</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }
