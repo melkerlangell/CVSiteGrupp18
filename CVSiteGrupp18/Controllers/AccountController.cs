@@ -160,6 +160,23 @@ namespace CVSiteGrupp18.Controllers
             return RedirectToAction("UserLandingPage", "Account");
         }
 
+        public IActionResult SearchUser()
+        {
+            return View();
+        }
+        // tar in ett användarnamn från ett input och kollar om användaren finns & hämtar den
+        [HttpGet]
+        public async Task<IActionResult> SearchUsers(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            // Kollar om profil är privat & ifall du är inloggad
+            if (!user.IsPublic && !User.Identity.IsAuthenticated)
+            {
+                ViewBag.Error = "You must be logged in to view this profile.";
+                return View("SearchUser", null);
+            }
+            return View("SearchUser", user);
+        }
 
     }
 }

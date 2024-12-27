@@ -1,0 +1,61 @@
+﻿@model ApplicationUser
+
+<!-- Om det finns ett felmeddelande i ViewBag.Error, visa det som en röd varningsruta -->
+@if (!string.IsNullOrEmpty(ViewBag.Error))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
+
+<div class="container mt-5">
+    <!-- Kort för att gruppera innehåll och ge en snygg design -->
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4">Search User</h1>
+        </div>
+        <div class="card-body">
+            <!-- Formulär för att söka efter en användare -->
+            <form asp-controller="Account" asp-action="SearchUsers" method="get" class="needs-validation">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Search by Email or Username:</label>
+                    <!-- Inmatningsfält där användaren kan skriva in e-post eller användarnamn -->
+                    <input type="text"
+                           id="username"
+                           name="username"
+                           class="form-control"
+                           placeholder="Enter email or username"
+                           required />
+                    <!-- Meddelande som visas om användaren försöker skicka formuläret utan att fylla i något -->
+                    <div class="invalid-feedback">
+                        Please enter a username or email.
+                    </div>
+                </div>
+                <!-- Knapp för att skicka formuläret -->
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kontrollera om en modell skickades från controllern -->
+    @if (Model != null)
+    {
+        <!-- Om en modell finns, visa användardetaljer -->
+        <div class="card mt-4">
+            <div class="card-header bg-success text-white">User Details</div>
+            <div class="card-body">
+                <p><strong>Username:</strong> @Model.UserName</p>
+                <p><strong>Email:</strong> @Model.Email</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Om ingen modell finns, visa en varning -->
+        <div class="alert alert-warning mt-4">
+            No user details to display.
+        </div>
+    }
+</div>
