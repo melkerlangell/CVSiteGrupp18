@@ -3,6 +3,7 @@ using CVSiteGrupp18.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CVSiteGrupp18.Controllers
 {
@@ -164,18 +165,44 @@ namespace CVSiteGrupp18.Controllers
         {
             return View();
         }
+
+
         // tar in ett användarnamn från ett input och kollar om användaren finns & hämtar den
         [HttpGet]
         public async Task<IActionResult> SearchUsers(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            // Kollar om profil är privat & ifall du är inloggad
-            if (!user.IsPublic && !User.Identity.IsAuthenticated)
+            if (string.IsNullOrWhiteSpace(username))
             {
-                ViewBag.Error = "You must be logged in to view this profile.";
+                ViewBag.Error = "Ange ett användarnamn att söka efter.";
                 return View("SearchUser", null);
             }
-            return View("SearchUser", user);
+
+            // Användarnamn som innehåller sökningen
+            var users = await _userManager.Users
+                .Where(u => u.UserName.Contains(username))
+                .ToListAsync();
+
+
+            //kollar ifall det inte finns några användare
+            if (users == null || users.Count == 0)
+            {
+                ViewBag.Error = "Hittar inte några användare med det namnet.";
+                return View("SearchUser", null);
+            }
+
+            // filtrerar att enbart visa publika användare ifall användaren som gör sökningen inte är registrerad
+            if (!User.Identity.IsAuthenticated)
+            {
+                users = users.Where(u => u.IsPublic).ToList();
+            }
+
+            if (users.Count == 0)
+            {
+                ViewBag.Error = "Inga profiler att visa. De kan vara privata.";
+                return View("SearchUser", null);
+            }
+
+            return View("SearchUser", users);
         }
 
     }

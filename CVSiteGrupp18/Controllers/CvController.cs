@@ -105,7 +105,7 @@ namespace CVSiteGrupp18.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return Unauthorized();
+                return Unauthorized(); // Om användaren inte är inloggad
             }
 
             var cv = await _context.CVs
@@ -116,11 +116,13 @@ namespace CVSiteGrupp18.Controllers
 
             if (cv == null)
             {
-                return NotFound();
+                // Omdirigera till sidan för att skapa CV ifall cv saknas
+                return RedirectToAction("SkapaCv");
             }
 
             return View(cv);
         }
+
     }
 }
 

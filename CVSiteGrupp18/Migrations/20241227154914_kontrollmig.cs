@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CVSiteGrupp18.Migrations
 {
     /// <inheritdoc />
-    public partial class lol : Migration
+    public partial class kontrollmig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
