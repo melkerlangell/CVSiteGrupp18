@@ -11,7 +11,7 @@ namespace CVSiteGrupp18.Models.CV.CV
         public string Titel { get; set; }
 
         [Required(ErrorMessage = "Minst en kompetens måste anges.")]
-        public List<string> Kompetenser { get; set; } = new List<string>() { string.Empty};
+        public List<string> Kompetenser { get; set; } = new List<string>();
 
 
         [Required(ErrorMessage = "Utbildningar är obligatoriska.")]

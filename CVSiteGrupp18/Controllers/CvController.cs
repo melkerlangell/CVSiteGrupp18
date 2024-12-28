@@ -64,7 +64,10 @@ namespace CVSiteGrupp18.Controllers
 
                 foreach (var kompetensNamn in model.Kompetenser)
                 {
-                    newCv.Egenskaper.Add(new Egenskap { Namn = kompetensNamn});
+                    if (!string.IsNullOrWhiteSpace(kompetensNamn))
+                    {
+                        newCv.Egenskaper.Add(new Egenskap { Namn = kompetensNamn });
+                    }
                 }
 
 
