@@ -11,11 +11,13 @@ namespace CVSiteGrupp18.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IWebHostEnvironment env;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment env)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            this.env = env;
         }
 
         [HttpGet]
@@ -90,6 +92,7 @@ namespace CVSiteGrupp18.Controllers
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> EditProfile(EditProfileViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -117,6 +120,32 @@ namespace CVSiteGrupp18.Controllers
             {
                 user.IsPublic = model.IsPublic;
             }
+
+
+           
+            if (model.ProfilBild != null)
+            {
+                string ext = Path.GetExtension(model.ProfilBild.FileName).ToLower();
+                if (ext != ".jpg" && ext!= ".jpeg" && ext != ".png")
+                {
+                    ModelState.AddModelError("ProfilBild", "Endast .jpg, .jpeg och .png filer är tillåtna.");
+                    return View(model);
+                }
+
+                string nyFilNamn = user.Id + DateTime.Now.ToString("yyyyMMddHHmmssfff");
+                nyFilNamn += ext;
+
+                string bildFullSok = env.WebRootPath + "/Profilepictures/" + nyFilNamn;
+
+                using (var stream = System.IO.File.Create(bildFullSok))
+                {
+                    model.ProfilBild.CopyTo(stream);
+                }
+
+                user.ProfilePicture = nyFilNamn;
+            }
+            
+
 
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
             {

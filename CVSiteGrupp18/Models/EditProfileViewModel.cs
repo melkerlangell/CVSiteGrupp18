@@ -13,6 +13,8 @@ namespace CVSiteGrupp18.Models
 
         public bool IsPublic { get; set; }
 
+        public IFormFile? ProfilBild { get; set; }
+
         public string? CurrentPassword { get; set; }
         public string? NewPassword { get; set; }
         public string? ConfirmNewPassword { get; set; }

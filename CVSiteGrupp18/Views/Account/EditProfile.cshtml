@@ -1,7 +1,7 @@
 ﻿@model EditProfileViewModel
 
 <div asp-validation-summary="All" class="text-danger"></div>
-<form asp-action="EditProfile" method="post" class="needs-validation" novalidate>
+<form asp-action="EditProfile" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="UserName" class="form-label">Användarnamn:</label>
         <input asp-for="UserName" id="UserName" class="form-control" placeholder="Lämna tom ifall du inte vill ändra" />
@@ -15,6 +15,11 @@
     <div class="mb-3">
         <label for="Address" class="form-label">Adress:</label>
         <input asp-for="Address" id="Address" class="form-control" placeholder="Lämna tom ifall du inte vill ändra" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Profilbild:</label>
+            <input class="form-control" asp-for="ProfilBild" type="file" placeholder="Ladda upp .jpeg, .jpg, .png fil" />
     </div>
 
     <div class="form-check mb-3">

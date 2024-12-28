@@ -1,8 +1,10 @@
 ﻿@model ApplicationUser
 
+<img src="~/Profilepictures/@Model.ProfilePicture" alt="Profile Picture" style="max-width: 150px;" />
+
 
 <div class="d-flex align-items-center gap-2">
-    <span class="fs-2 me-3">@User.Identity.Name</span>
+    <span class="fs-2 me-3">@Model.UserName</span>
     <a asp-controller="Cv" asp-action="CvDetaljer" class="btn btn-primary">Visa CV</a>
     <a asp-controller="Account" asp-action="EditProfile" class="btn btn-secondary">Redigera profil</a>
 </div>
