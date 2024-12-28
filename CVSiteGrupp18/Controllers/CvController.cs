@@ -126,6 +126,26 @@ namespace CVSiteGrupp18.Controllers
             return View(cv);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteCv(int cvId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var cv = await _context.CVs.FirstOrDefaultAsync(c => c.UserId == user.Id && c.Id == cvId);  
+            if (cv == null)
+            {
+                return NotFound();
+            }
+
+            _context.CVs.Remove(cv);
+            await _context.SaveChangesAsync();  
+
+            return RedirectToAction("UserLandingPage", "Account");
+        }
     }
 }
 
