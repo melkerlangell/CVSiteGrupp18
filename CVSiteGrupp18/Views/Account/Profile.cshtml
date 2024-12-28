@@ -1,0 +1,8 @@
+﻿@model ApplicationUser
+
+
+<div class="d-flex align-items-center gap-2">
+    <span class="fs-2 me-3">@User.Identity.Name</span>
+    <a asp-controller="Cv" asp-action="CvDetaljer" class="btn btn-primary">Visa CV</a>
+    <a asp-controller="Account" asp-action="EditProfile" class="btn btn-secondary">Redigera profil</a>
+</div>

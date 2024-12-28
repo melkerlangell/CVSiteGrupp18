@@ -205,5 +205,11 @@ namespace CVSiteGrupp18.Controllers
             return View("SearchUser", users);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            return View(user);
+        }
     }
 }
