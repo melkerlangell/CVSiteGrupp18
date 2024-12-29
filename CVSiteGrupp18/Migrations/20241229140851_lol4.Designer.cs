@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CVSiteGrupp18.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241229134129_lol3")]
-    partial class lol3
+    [Migration("20241229140851_lol4")]
+    partial class lol4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

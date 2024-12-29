@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CVSiteGrupp18.Migrations
 {
     /// <inheritdoc />
-    public partial class lol3 : Migration
+    public partial class lol4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

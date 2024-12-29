@@ -31,26 +31,31 @@ namespace CVSiteGrupp18.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SkapaProjekt(CreateProject model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    return Unauthorized();
+                    Debug.WriteLine(error.ErrorMessage);
                 }
-                model.UserId = user.Id;
-
-                _context.Projects.Add(model);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index", "Home");
-
+                return View(model);
             }
-            return View(model);
 
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            model.UserId = user.Id;
+
+            _context.Projects.Add(model);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index", "Home");
         }
 
-        
+
+
         public async Task<IActionResult> MinaProjekt()
         {
             var user = await _userManager.GetUserAsync(User);
