@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
 namespace CVSiteGrupp18.Models
@@ -11,7 +12,14 @@ namespace CVSiteGrupp18.Models
         [PersonalData]
         public bool IsPublic { get; set; }
 
-        
+
         public string? ProfilePicture { get; set; } = "default.jpg";
+
+        public virtual CVSiteGrupp18.Models.CVmodeller.CV? CV { get; set; }
+
+       
+
+
+
     }
 }

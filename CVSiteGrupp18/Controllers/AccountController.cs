@@ -208,6 +208,12 @@ namespace CVSiteGrupp18.Controllers
 
             // Användarnamn som innehåller sökningen
             var users = await _userManager.Users
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Utbildningar)
+            .Include(u => u.CV)
+                .ThenInclude(cv => cv.Erfarenheter)
+            .Include(u => u.CV)
+                .ThenInclude(cv => cv.Egenskaper)
                 .Where(u => u.UserName.Contains(username))
                 .ToListAsync();
 

@@ -52,9 +52,51 @@
                     <div class="card-body">
 					    <p><strong>Användarnamn:</strong> @user.UserName</p>
 					    <p><strong>Email:</strong> @user.Email</p>
-                    </div>
-				}
-           
+                        <!-- Om det finns tillhörande CV till användare -->
+                         @if (user.CV != null)
+                    {
+                        <p><strong>CV Titel:</strong> @user.CV.Titel</p>
+                        <h5>Utbildningar</h5>
+                        <ul>
+                            @foreach (var utbildning in user.CV.Utbildningar)
+                            {
+                                <li>
+                                    <p><strong>Skola:</strong> @utbildning.Skola</p>
+                                    <p><strong>Titel:</strong> @utbildning.Titel</p>
+                                    <p><strong>Startdatum:</strong> @utbildning.StartDatum.ToShortDateString()</p>
+                                    <p><strong>Slutdatum:</strong> @utbildning.SlutDatum?.ToShortDateString()</p>
+                                </li>
+                            }
+                        </ul>
+
+                            <h5>Erfarenheter</h5>
+                            <ul>
+                                @foreach (var erfarenhet in user.CV.Erfarenheter)
+                                {
+                                    <li>
+                                        <p><strong>Arbetsplats:</strong> @erfarenhet.Arbetsplats</p>
+                                        <p><strong>Roll:</strong> @erfarenhet.Roll</p>
+                                        <p><strong>Beskrivning:</strong> @erfarenhet.Beskrivning</p>
+                                        <p><strong>Startdatum:</strong> @erfarenhet.StartDatum.ToShortDateString()</p>
+                                        <p><strong>Slutdatum:</strong> @erfarenhet.SlutDatum?.ToShortDateString()</p>
+                                    </li>
+                                }
+                            </ul>
+
+                            <h5>Egenskaper</h5>
+                            <ul>
+                                @foreach (var egenskap in user.CV.Egenskaper)
+                                {
+                                    <li>
+                                        <p><strong>Namn:</strong> @egenskap.Namn</p>
+                                    </li>
+                                }
+                            </ul>
+                    }
+                    </div>      
+			    }
+    }
+
         </div>
     }
 </div>
