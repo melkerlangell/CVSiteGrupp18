@@ -46,12 +46,13 @@ namespace CVSiteGrupp18.Controllers
                 return Unauthorized();
             }
 
-            model.UserId = user.Id;
+            model.UserId = user.Id; // Sätt endast UserId
+                                    // Ingen explicit inställning av model.User krävs
 
             _context.Projects.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("MinaProjekt");
         }
 
 
