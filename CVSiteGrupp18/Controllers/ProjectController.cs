@@ -53,7 +53,7 @@ namespace CVSiteGrupp18.Controllers
         
         public async Task<IActionResult> MinaProjekt()
         {
-            var user = _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return Unauthorized();
