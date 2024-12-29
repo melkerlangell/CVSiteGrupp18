@@ -33,25 +33,69 @@ namespace CVSiteGrupp18.Controllers
             {
                 return View(model);
             }
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var existingCV = await _context.CVs
+                                           .Include(c => c.Egenskaper)
+                                           .Include(c => c.Utbildningar)
+                                           .Include(c => c.Erfarenheter)
+                                           .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+            if (existingCV != null)
+            {
+                // Om ett CV redan finns, uppdatera det
+                existingCV.Titel = model.Titel;
+
+                // Rensa befintliga egenskaper, utbildningar och erfarenheter
+                _context.Egenskaper.RemoveRange(existingCV.Egenskaper);
+                _context.Utbildningar.RemoveRange(existingCV.Utbildningar);
+                _context.Erfarenheter.RemoveRange(existingCV.Erfarenheter);
+
+                // Lägg till nya egenskaper
+                foreach (var kompetensNamn in model.Kompetenser)
+                {
+                    if (!string.IsNullOrWhiteSpace(kompetensNamn))
+                    {
+                        existingCV.Egenskaper.Add(new Egenskap { Namn = kompetensNamn });
+                    }
+                }
+
+                // Lägg till nya utbildningar
+                foreach (var utbildning in model.Utbildningar)
+                {
+                    existingCV.Utbildningar.Add(new Utbildning
+                    {
+                        Skola = utbildning.Skola,
+                        Titel = utbildning.Titel,
+                        StartDatum = utbildning.Startdatum,
+                        SlutDatum = utbildning.Slutdatum
+                    });
+                }
+
+                // Lägg till nya erfarenheter
+                foreach (var erfarenhet in model.Erfarenheter)
+                {
+                    existingCV.Erfarenheter.Add(new Erfarenhet
+                    {
+                        Arbetsplats = erfarenhet.Företag,
+                        Roll = erfarenhet.Roll,
+                        Beskrivning = erfarenhet.Beskrivning,
+                        StartDatum = erfarenhet.Startdatum,
+                        SlutDatum = erfarenhet.Slutdatum
+                    });
+                }
+
+                _context.CVs.Update(existingCV);
+                await _context.SaveChangesAsync();
+            }
             else
             {
-                var user = await _userManager.GetUserAsync(User);
-                if (user == null)
-                {
-                    return Unauthorized();
-                }
-
-                var existingCV = await _context.CVs
-                                   .Where(c => c.UserId == user.Id)
-                                   .FirstOrDefaultAsync();
-
-                if (existingCV != null)
-                {
-                    ModelState.AddModelError(string.Empty, "Enbart ett CV per användare, du kan ändra ditt befintliga");
-                    return View(model);
-                }
-
-
+                // Om inget CV finns, skapa ett nytt
                 var newCv = new CV
                 {
                     Titel = model.Titel,
@@ -61,7 +105,6 @@ namespace CVSiteGrupp18.Controllers
                     Erfarenheter = new List<Erfarenhet>()
                 };
 
-
                 foreach (var kompetensNamn in model.Kompetenser)
                 {
                     if (!string.IsNullOrWhiteSpace(kompetensNamn))
@@ -69,7 +112,6 @@ namespace CVSiteGrupp18.Controllers
                         newCv.Egenskaper.Add(new Egenskap { Namn = kompetensNamn });
                     }
                 }
-
 
                 foreach (var utbildning in model.Utbildningar)
                 {
@@ -81,7 +123,6 @@ namespace CVSiteGrupp18.Controllers
                         SlutDatum = utbildning.Slutdatum
                     });
                 }
-
 
                 foreach (var erfarenhet in model.Erfarenheter)
                 {
@@ -95,13 +136,14 @@ namespace CVSiteGrupp18.Controllers
                     });
                 }
 
-
                 _context.CVs.Add(newCv);
                 await _context.SaveChangesAsync();
-
-                return RedirectToAction("CvDetaljer");
             }
+
+            return RedirectToAction("CvDetaljer");
         }
+
+
 
         public async Task<IActionResult> CvDetaljer()
         {
@@ -146,6 +188,54 @@ namespace CVSiteGrupp18.Controllers
 
             return RedirectToAction("UserLandingPage", "Account");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RedigeraCv()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var existingCV = await _context.CVs
+                                           .Include(c => c.Egenskaper)
+                                           .Include(c => c.Utbildningar)
+                                           .Include(c => c.Erfarenheter)
+                                           .FirstOrDefaultAsync(c => c.UserId == user.Id);
+
+            if (existingCV == null)
+            {
+                return RedirectToAction("SkapaCv"); // Om inget CV finns, skapar vi ett nytt
+            }
+
+            var viewModel = new CreateCvViewModel
+            {
+                Titel = existingCV.Titel,
+                Kompetenser = existingCV.Egenskaper.Select(e => e.Namn).ToList(),
+                Utbildningar = existingCV.Utbildningar.Select(u => new UtbildningInputModel
+                {
+                    Skola = u.Skola,
+                    Titel = u.Titel,
+                    Startdatum = u.StartDatum,
+                    Slutdatum = u.SlutDatum
+                }).ToList(),
+                Erfarenheter = existingCV.Erfarenheter.Select(e => new ErfarenhetInputModel
+                {
+                    Företag = e.Arbetsplats,
+                    Roll = e.Roll,
+                    Beskrivning = e.Beskrivning,
+                    Startdatum = e.StartDatum,
+                    Slutdatum = e.SlutDatum
+                }).ToList()
+            };
+
+            return View("SkapaCv", viewModel); // Använd samma vy som för att skapa CV
+        }
+
+
+        
+
     }
 }
 

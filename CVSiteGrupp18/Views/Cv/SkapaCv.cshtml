@@ -1,14 +1,14 @@
 ﻿@model CVSiteGrupp18.Models.CV.CV.CreateCvViewModel
 @{
-    ViewData["Title"] = "Skapa CV";
+    ViewData["Title"] = "CV";
 }
 
 <script defer src="~/js/createcv.js"></script>
 
-<h1 class="text-center my-4">Skapa nytt CV</h1>
+@* <h1 class="text-center my-4"></h1> *@
 
 <div asp-validation-summary="All" class="text-danger"></div>
-<form method="post" asp-action="SkapaCv" class="container">
+<form id="cv-form" method="post" asp-action="SkapaCv" class="container">
     <div class="mb-3">
         <label for="Titel" class="form-label">Titel:</label>
         <input asp-for="Titel" class="form-control" id="Titel" />
@@ -94,7 +94,3 @@
         <button type="submit" class="btn btn-success">Spara CV</button>
     </div>
 </form>
-
-
-
-

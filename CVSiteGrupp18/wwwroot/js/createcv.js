@@ -68,16 +68,29 @@ const addErfarenhet = () => {
 const removeField = (btn) => {
     const field = btn.parentElement;
     field.remove();
+    updateIndexes();
 }
 
-const form = document.getElementById("cv-form");
-form.addEventListener("submit", function (e) {
-    const kompetenser = document.querySelectorAll("[name='Kompetenser[]']");
-    const utbildningar = document.querySelectorAll("[name='Utbildningar[]']");
-    const erfarenheter = document.querySelectorAll("[name='Erfarenheter[]']");
+const updateIndexes = () => {
+    const kompetenser = document.querySelectorAll('#kompetenser-container .input-group');
+    kompetenser.forEach((field, index) => {
+        field.querySelector('input').name = `Kompetenser[${index}]`;
+    });
 
-    if (kompetenser.length === 0 || utbildningar.length === 0 || erfarenheter.length === 0) {
-        e.preventDefault();
-        alert("Alla fält måste fyllas i.");
-    }
-});
+    const utbildningar = document.querySelectorAll('#utbildningar-container .border');
+    utbildningar.forEach((field, index) => {
+        field.querySelector('input[name*="Skola"]').name = `Utbildningar[${index}].Skola`;
+        field.querySelector('input[name*="Titel"]').name = `Utbildningar[${index}].Titel`;
+        field.querySelector('input[name*="Startdatum"]').name = `Utbildningar[${index}].Startdatum`;
+        field.querySelector('input[name*="Slutdatum"]').name = `Utbildningar[${index}].Slutdatum`;
+    });
+
+    const erfarenheter = document.querySelectorAll('#erfarenheter-container .border');
+    erfarenheter.forEach((field, index) => {
+        field.querySelector('input[name*="Företag"]').name = `Erfarenheter[${index}].Företag`;
+        field.querySelector('input[name*="Roll"]').name = `Erfarenheter[${index}].Roll`;
+        field.querySelector('textarea[name*="Beskrivning"]').name = `Erfarenheter[${index}].Beskrivning`;
+        field.querySelector('input[name*="Startdatum"]').name = `Erfarenheter[${index}].Startdatum`;
+        field.querySelector('input[name*="Slutdatum"]').name = `Erfarenheter[${index}].Slutdatum`;
+    });
+}

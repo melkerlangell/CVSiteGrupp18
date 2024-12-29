@@ -19,5 +19,7 @@ namespace CVSiteGrupp18.Models.CV.CV
 
         [Required(ErrorMessage = "Erfarenheter är obligatoriska.")]
         public List<ErfarenhetInputModel> Erfarenheter { get; set; } = new List<ErfarenhetInputModel>();
+
+   
     }
 }
