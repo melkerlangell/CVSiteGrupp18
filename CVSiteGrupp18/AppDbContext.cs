@@ -1,5 +1,6 @@
 ﻿using CVSiteGrupp18.Models;
 using CVSiteGrupp18.Models.CVmodeller;
+using CVSiteGrupp18.Models.Projektmodeller;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,7 @@ namespace CVSiteGrupp18
         public DbSet<Utbildning> Utbildningar { get; set; }
         public DbSet<Erfarenhet> Erfarenheter { get; set; }
         public DbSet<Egenskap> Egenskaper { get; set; }
+        public DbSet<CreateProject> Projects { get; set; }
 
     }
 }
