@@ -46,8 +46,7 @@ namespace CVSiteGrupp18.Controllers
                 return Unauthorized();
             }
 
-            model.UserId = user.Id; // Sätt endast UserId
-                                    // Ingen explicit inställning av model.User krävs
+            model.UserId = user.Id; 
 
             _context.Projects.Add(model);
             await _context.SaveChangesAsync();
