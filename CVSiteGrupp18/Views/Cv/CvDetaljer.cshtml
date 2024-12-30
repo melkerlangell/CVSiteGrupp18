@@ -2,9 +2,8 @@
 
 @{
     ViewData["Title"] = "Cv Detaljer";
-}
+} 
 
-<h1 class="text-center my-4">Ditt CV</h1>
 
 <div class="container">
 
@@ -62,18 +61,23 @@
             </ul>
         </div>
     </div>
-    <div class="row mt-4">
-        <div class="col-12 text-center">
-            <a class="btn btn-primary" asp-controller="Cv" asp-action="RedigeraCv" asp-route-id="@Model.Id">Redigera CV</a>
-        </div>
-    </div>
 
-    <div class="row mt-4">
-        <form id="deleteForm" method="post" asp-controller="Cv" asp-action="DeleteCv" style="display:inline;">
-            <input type="hidden" name="cvId" value="@Model.Id" />
-            <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Radera CV</button>
-        </form>
-    </div>
+    @if(User.Identity.Name == Model.User.UserName)
+    {
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a class="btn btn-primary" asp-controller="Cv" asp-action="RedigeraCv" asp-route-id="@Model.Id">Redigera CV</a>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <form id="deleteForm" method="post" asp-controller="Cv" asp-action="DeleteCv" style="display:inline;">
+                <input type="hidden" name="cvId" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete()">Radera CV</button>
+            </form>
+        </div>
+    }
+    
 </div>
 
 <script>

@@ -3,29 +3,24 @@
 
 
 <div class="container mt-5">
-    <!-- Kort för att gruppera innehåll och ge en snygg design -->
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h1 class="h4">Sök användare</h1>
         </div>
         <div class="card-body">
-            <!-- Formulär för att söka efter en användare -->
-            <form asp-controller="Account" asp-action="SearchUsers" method="get" class="needs-validation">
+            <form asp-action="SearchUsers" method="get" class="needs-validation">
                 <div class="mb-3">
                     <label for="username" class="form-label">Sök med användarnamn</label>
-                    <!-- Inmatningsfält där användaren kan skriva in e-post eller användarnamn -->
                     <input type="text"
                            id="username"
                            name="username"
                            class="form-control"
                            placeholder="Ange användarnamn"
                            required />
-                    <!-- Meddelande som visas om användaren försöker skicka formuläret utan att fylla i något -->
                     <div class="invalid-feedback">
                         Vänligen ange ett användarnamn
                     </div>
                 </div>
-                <!-- Knapp för att skicka formuläret -->
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-search"></i> Sök
                 </button>
@@ -33,70 +28,33 @@
         </div>
     </div>
     <br />
-    <!-- Om det finns ett felmeddelande i ViewBag.Error, visa det som en röd varningsruta -->
+
     @if (!string.IsNullOrEmpty(ViewBag.Error))
     {
         <div class="alert alert-danger" role="alert">
             @ViewBag.Error
         </div>
     }
-    <!-- Kontrollera om en modell skickades från controllern -->
-    @if (Model != null)
+
+    @if (Model != null && Model.Any())
     {
-        <!-- Om en modell finns, visa användardetaljer -->
-        <div class="card mt-4">
-            
-				@foreach (var user in Model)
-				{
-                    <div class="card-header bg-success text-white">Kontoinformation</div>
+        <div class="mt-4">
+            @foreach (var user in Model)
+            {
+                <div class="card mb-3">
+                    <div class="card-header bg-success text-white">
+                        <strong>@user.UserName</strong>
+                    </div>
                     <div class="card-body">
-					    <p><strong>Användarnamn:</strong> @user.UserName</p>
-					    <p><strong>Email:</strong> @user.Email</p>
-                        <!-- Om det finns tillhörande CV till användare -->
-                         @if (user.CV != null)
-                    {
-                        <p><strong>CV Titel:</strong> @user.CV.Titel</p>
-                        <h5>Utbildningar</h5>
-                        <ul>
-                            @foreach (var utbildning in user.CV.Utbildningar)
-                            {
-                                <li>
-                                    <p><strong>Skola:</strong> @utbildning.Skola</p>
-                                    <p><strong>Titel:</strong> @utbildning.Titel</p>
-                                    <p><strong>Startdatum:</strong> @utbildning.StartDatum.ToShortDateString()</p>
-                                    <p><strong>Slutdatum:</strong> @utbildning.SlutDatum?.ToShortDateString()</p>
-                                </li>
-                            }
-                        </ul>
-
-                            <h5>Erfarenheter</h5>
-                            <ul>
-                                @foreach (var erfarenhet in user.CV.Erfarenheter)
-                                {
-                                    <li>
-                                        <p><strong>Arbetsplats:</strong> @erfarenhet.Arbetsplats</p>
-                                        <p><strong>Roll:</strong> @erfarenhet.Roll</p>
-                                        <p><strong>Beskrivning:</strong> @erfarenhet.Beskrivning</p>
-                                        <p><strong>Startdatum:</strong> @erfarenhet.StartDatum.ToShortDateString()</p>
-                                        <p><strong>Slutdatum:</strong> @erfarenhet.SlutDatum?.ToShortDateString()</p>
-                                    </li>
-                                }
-                            </ul>
-
-                            <h5>Egenskaper</h5>
-                            <ul>
-                                @foreach (var egenskap in user.CV.Egenskaper)
-                                {
-                                    <li>
-                                        <p><strong>Namn:</strong> @egenskap.Namn</p>
-                                    </li>
-                                }
-                            </ul>
-                    }
-                    </div>      
-			    }
-    }
-
+                        <p><strong>Email:</strong> @user.Email</p>
+                        <p><strong>Offentlig profil:</strong> @(user.IsPublic ? "Ja" : "Nej")</p>
+                        <a asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@user.Id" class="btn btn-secondary">
+                            Visa Profil
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
     }
 </div>
+

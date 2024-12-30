@@ -122,11 +122,11 @@ namespace CVSiteGrupp18.Controllers
             }
 
 
-           
+
             if (model.ProfilBild != null)
             {
                 string ext = Path.GetExtension(model.ProfilBild.FileName).ToLower();
-                if (ext != ".jpg" && ext!= ".jpeg" && ext != ".png")
+                if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
                 {
                     ModelState.AddModelError("ProfilBild", "Endast .jpg, .jpeg och .png filer är tillåtna.");
                     return View(model);
@@ -144,7 +144,7 @@ namespace CVSiteGrupp18.Controllers
 
                 user.ProfilePicture = nyFilNamn;
             }
-            
+
 
 
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
@@ -206,6 +206,8 @@ namespace CVSiteGrupp18.Controllers
                 return View("SearchUser", null);
             }
 
+            var currentUser = await _userManager.GetUserAsync(User);
+
             // Användarnamn som innehåller sökningen
             var users = await _userManager.Users
                 .Include(u => u.CV)
@@ -217,6 +219,11 @@ namespace CVSiteGrupp18.Controllers
                 .Where(u => u.UserName.Contains(username))
                 .ToListAsync();
 
+
+            if (currentUser != null)
+            {
+                users = users.Where(u => u.Id != currentUser.Id).ToList();
+            }
 
             //kollar ifall det inte finns några användare
             if (users == null || users.Count == 0)
@@ -246,5 +253,31 @@ namespace CVSiteGrupp18.Controllers
             var user = await _userManager.GetUserAsync(User);
             return View(user);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> VisaProfilForAnnanAnvandare(string id)
+        {
+            var user = await _userManager.Users
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Utbildningar)
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Erfarenheter)
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Egenskaper)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (!user.IsPublic && !User.Identity.IsAuthenticated)
+            {
+                return Forbid();
+            }
+
+            return View("Profile", user);
+        }
+
     }
 }

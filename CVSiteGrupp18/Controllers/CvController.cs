@@ -1,6 +1,7 @@
 ﻿using CVSiteGrupp18.Models;
 using CVSiteGrupp18.Models.CV.CV;
 using CVSiteGrupp18.Models.CVmodeller;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,7 @@ namespace CVSiteGrupp18.Controllers
             _context = context;
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult SkapaCv()
         {
@@ -144,29 +146,36 @@ namespace CVSiteGrupp18.Controllers
         }
 
 
-
-        public async Task<IActionResult> CvDetaljer()
+        public async Task<IActionResult> CvDetaljer(string userId)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return Unauthorized(); // Om användaren inte är inloggad
-            }
+            var currentUser = await _userManager.GetUserAsync(User);
 
             var cv = await _context.CVs
+                .Include(c => c.User) 
                 .Include(c => c.Egenskaper)
                 .Include(c => c.Utbildningar)
                 .Include(c => c.Erfarenheter)
-                .FirstOrDefaultAsync(c => c.UserId == user.Id);
+                .FirstOrDefaultAsync(c => c.UserId == userId);
+
 
             if (cv == null)
             {
-                // Omdirigera till sidan för att skapa CV ifall cv saknas
-                return RedirectToAction("SkapaCv");
+                if(currentUser == null)
+                {
+                    return View("SaknarCv");
+                }
+
+                if (currentUser.Id == userId)
+                {
+                    return RedirectToAction("SkapaCv");
+                }
+
+                return View("SaknarCv");
             }
 
             return View(cv);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> DeleteCv(int cvId)
