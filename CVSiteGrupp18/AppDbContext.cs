@@ -17,6 +17,7 @@ namespace CVSiteGrupp18
         public DbSet<Erfarenhet> Erfarenheter { get; set; }
         public DbSet<Egenskap> Egenskaper { get; set; }
         public DbSet<CreateProject> Projects { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
     }
 }

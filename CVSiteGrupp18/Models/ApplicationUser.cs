@@ -17,6 +17,8 @@ namespace CVSiteGrupp18.Models
 
         public virtual CVSiteGrupp18.Models.CVmodeller.CV? CV { get; set; }
 
+        public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
+
        
 
 
