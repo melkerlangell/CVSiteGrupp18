@@ -19,7 +19,7 @@
                 <td>
                     <a asp-action="RedigeraProjekt" asp-route-id="@project.ProjectId" class="btn btn-warning">Redigera</a>
                     <form asp-action="TaBortProjekt" asp-route-id="@project.ProjectId" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger">Ta bort</button>
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Är du säker på att du vill ta bort detta projekt?')">Ta bort</button>
                     </form>
                 </td>
             </tr>
