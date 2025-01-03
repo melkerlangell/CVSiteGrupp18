@@ -16,6 +16,22 @@
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
+
+    <div>
+        <label>Startdatum</label>
+		<input type="date" asp-for="StartDatum" class="form-control" />
+        <span asp-validation-for="StartDatum" class="text-danger"></span>
+    </div>
+    <div>
+         <label>Slutdatum (valbar)</label>
+         <input type="date" asp-for="SlutDatum" class="form-control" />
+    </div>
+    <div>
+        <label>Länk till projekt (valbar)</label>
+        <input type="text" asp-for="ExternalLink" />
+    </div>
+
+
     <button type="submit" class="btn btn-primary">Skapa</button>
 </form>
 

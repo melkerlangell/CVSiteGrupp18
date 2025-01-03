@@ -49,6 +49,20 @@ namespace CVSiteGrupp18.Controllers
 
             model.UserId = user.Id; 
 
+            if(model.ExternalLink != null)
+            {
+                if (model.ExternalLink.Contains("http://") || model.ExternalLink.Contains("https://"))
+                {
+                    model.ExternalLink = model.ExternalLink;
+                }
+                else
+                {
+                    model.ExternalLink = "http://" + model.ExternalLink;
+                }
+            }
+
+            
+
             _context.Projects.Add(model);
             await _context.SaveChangesAsync();
 
@@ -119,8 +133,11 @@ namespace CVSiteGrupp18.Controllers
                     
                     existingProject.Title = model.Title;
                     existingProject.Description = model.Description;
+                    existingProject.StartDatum = model.StartDatum;
+                    existingProject.SlutDatum = model.SlutDatum;
+                    existingProject.ExternalLink = model.ExternalLink;
 
-                    
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -18,14 +18,18 @@
                 <td>@project.Description</td>
                 <td>
                     <a asp-controller="Project" asp-action="DetaljerSpecifiktProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-primary">Visa deltagare</a>
-                    @if (User.Identity.Name == project.User.UserName)
+                    @if (User?.Identity?.Name == project.User?.UserName)
                     {
                         <p class="text-success">Skapare</p>
                     }
+                    else if (project.ProjectUsers != null && project.ProjectUsers.Any(pu => pu.User.UserName == User?.Identity?.Name))
+                    {
+                        <p class="text-info">Redan med i projektet</p>
+                    }
                     else
                     {
-                        <form method="post">
-                            <button asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-outline-success" type="submit">Gå med</button>
+                        <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@project.ProjectId">
+                            <button class="btn btn-outline-success" type="submit">Gå med</button>
                         </form>
                     }
                 </td>

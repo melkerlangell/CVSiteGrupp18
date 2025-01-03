@@ -11,6 +11,14 @@ namespace CVSiteGrupp18.Models.Projektmodeller
         public string Title { get; set; }
         [Required(ErrorMessage = "Beskrivning är obligatorisk")]
         public string Description { get; set; }
+
+        public string? ExternalLink { get; set; }
+
+        [Required(ErrorMessage = "Startdatum är obligatorisk")]
+        public DateTime? StartDatum { get; set; }
+        public DateTime? SlutDatum { get; set; }
+
+
         [ForeignKey("User")]
         public string? UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }

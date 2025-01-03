@@ -8,6 +8,20 @@
 
 <p><strong>Beskrivning:</strong> @Model.Description</p>
 
+<p><strong>Startdatum:</strong> @Model.StartDatum?.ToShortDateString()</p>
+
+@if (Model.SlutDatum != null)
+{
+    <p><strong>Slutdatum:</strong> @Model.SlutDatum?.ToShortDateString()</p>
+}else{
+	<p><strong>Slutdatum:</strong> Projektet är pågående</p>
+}
+
+@if (!string.IsNullOrEmpty(Model.ExternalLink?.ToString()))
+{
+    <p><strong>Länk:</strong> <a href="@Model.ExternalLink" target="_blank" rel="noreferrer">@Model.ExternalLink</a></p>
+}
+
 <h3>Deltagare i projektet:</h3>
 
 
@@ -15,7 +29,12 @@
     @foreach (var projectUser in Model.ProjectUsers)
     {
         <li>@projectUser.User.UserName (@projectUser.User.Email)</li>
-        <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
+        @if(User.Identity.Name != projectUser.User.UserName){
+            <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
+        }else{
+			<p class="text-success">Du är med i projektet</p>
+        }
+       
     }
 </ul>
 
