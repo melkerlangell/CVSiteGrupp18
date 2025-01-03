@@ -25,10 +25,11 @@
                     <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-outline-secondary">
                         <i class="bi bi-folder"></i> Mina projekt
                     </a>
+                    
                     @if (Model.CV != null)
                     {
-                        <a asp-controller="Cv" asp-action="RedigeraCV" class="btn btn-outline-secondary">
-                            <i class="bi bi-file-earmark-text"></i> Redigera CV
+                        <a asp-controller="Cv" asp-action="CvDetaljer" asp-route-userId="@Model.Id" class="btn btn-primary">
+                            <i class="bi bi-eye"></i> Visa CV
                         </a>
                     }
                     else
@@ -43,10 +44,11 @@
                     <a asp-controller="Cv" asp-action="CvDetaljer" asp-route-userId="@Model.Id" class="btn btn-primary">
                         <i class="bi bi-eye"></i> Visa CV
                     </a>
+                    <a asp-controller="Message" asp-action="Message" asp-route-id="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-envelope"></i> Skicka Meddelande
+                    </a>
                 }
-                <a asp-controller="Message" asp-action="Message" asp-route-id="@Model.Id" class="btn btn-primary">
-                    <i class="bi bi-envelope"></i> Skicka Meddelande
-                </a>
+                
             </div>
         </div>
     </div>

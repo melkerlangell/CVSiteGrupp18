@@ -214,7 +214,8 @@ namespace CVSiteGrupp18.Controllers
             _context.ProjektUsers.Add(projectUser);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("DetaljerSpecifiktProjekt", new { id = projectId });
+
+            return RedirectToAction("DetaljerSpecifiktProjekt", new { projectId = projectId });
 
 
         }
