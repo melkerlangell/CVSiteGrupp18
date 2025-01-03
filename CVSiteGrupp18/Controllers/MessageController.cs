@@ -38,9 +38,10 @@ namespace CVSiteGrupp18.Controllers
         public async Task<IActionResult> MyMessages()
         {
             var user = await _userManager.GetUserAsync(User);
-            var meddelanden = _context.Messages.Where(m => m.Reciever == user.Id).ToList();
+            var meddelanden = _context.Messages.Where(m => m.Reciever == user.Id).OrderByDescending(m => m.Timestamp).ToList();
             return View(meddelanden);
         }
+       
         public IActionResult test(int id)
         {
             return Content("test" + id);
