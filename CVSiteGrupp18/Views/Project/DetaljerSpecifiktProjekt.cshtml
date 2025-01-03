@@ -1,0 +1,24 @@
+﻿@model CVSiteGrupp18.Models.Projektmodeller.CreateProject
+
+@{
+    ViewData["Title"] = "Detaljer för projekt";
+}
+
+<h1>@Model.Title</h1>
+
+<p><strong>Beskrivning:</strong> @Model.Description</p>
+
+<h3>Deltagare i projektet:</h3>
+
+
+<ul>
+    @foreach (var projectUser in Model.ProjectUsers)
+    {
+        <li>@projectUser.User.UserName (@projectUser.User.Email)</li>
+        <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
+    }
+</ul>
+
+<a asp-controller="Project" asp-action="AllaProjekt" class="btn btn-warning">Tillbaka</a>
+
+

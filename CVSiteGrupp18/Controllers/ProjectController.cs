@@ -52,6 +52,15 @@ namespace CVSiteGrupp18.Controllers
             _context.Projects.Add(model);
             await _context.SaveChangesAsync();
 
+            var projectUser = new ProjektUser
+            {
+                ProjectId = model.ProjectId,                  
+                UserId = user.Id              
+            };
+
+            _context.ProjektUsers.Add(projectUser);
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("MinaProjekt");
         }
 
@@ -65,7 +74,12 @@ namespace CVSiteGrupp18.Controllers
                 return Unauthorized();
             }
 
-            var projects = _context.Projects.Where(p => p.UserId == user.Id).ToList();
+            var projects = await _context.Projects
+                .Include(p => p.ProjectUsers)
+                .ThenInclude(pu => pu.User)
+                .Where(p => p.UserId == user.Id || p.ProjectUsers.Any(pu => pu.UserId == user.Id))
+                .ToListAsync();
+
             return View(projects);
         }
 
@@ -143,5 +157,92 @@ namespace CVSiteGrupp18.Controllers
 
             return RedirectToAction(nameof(MinaProjekt));
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> AllaProjekt()
+        {
+            var projects = await _context.Projects.ToListAsync();
+            return View(projects);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DetaljerSpecifiktProjekt(int projectId)
+        {
+            var project = await _context.Projects
+                .Include(p => p.ProjectUsers)
+                .ThenInclude(pu => pu.User)  // Inkludera användaren som är med i projektet
+                .FirstOrDefaultAsync(p => p.ProjectId == projectId);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);  // Skicka projektet till vyn
+        }
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> GåMedProjekt(int projectId)
+        {
+            var user = await _userManager.GetUserAsync(User);  // Hämtar den inloggade användaren
+            var project = await _context.Projects.FindAsync(projectId);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            // Kontrollera om användaren redan är med i projektet
+            var existingProjectUser = await _context.ProjektUsers
+                .FirstOrDefaultAsync(pu => pu.ProjectId == projectId && pu.UserId == user.Id);
+
+            if (existingProjectUser != null)
+            {
+                return BadRequest("Du är redan med i projektet.");
+            }
+
+            // Lägg till användaren i projektet
+            var projectUser = new ProjektUser
+            {
+                ProjectId = projectId,
+                UserId = user.Id
+            };
+
+            _context.ProjektUsers.Add(projectUser);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("DetaljerSpecifiktProjekt", new { id = projectId });
+
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> LämnaProjekt(int projectId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            var projectUser = await _context.ProjektUsers
+                .FirstOrDefaultAsync(pu => pu.ProjectId == projectId && pu.UserId == user.Id);
+
+            if (projectUser == null)
+            {
+                return NotFound("Du är inte med i projektet.");
+            }
+
+
+            _context.ProjektUsers.Remove(projectUser);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MinaProjekt");
+        }
+
+
     }
 }

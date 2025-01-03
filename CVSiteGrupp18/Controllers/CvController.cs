@@ -142,7 +142,7 @@ namespace CVSiteGrupp18.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToAction("CvDetaljer");
+            return RedirectToAction("Profile","Account");
         }
 
 

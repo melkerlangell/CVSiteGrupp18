@@ -1,0 +1,35 @@
+﻿@model List<CVSiteGrupp18.Models.Projektmodeller.CreateProject>
+
+<h1>Alla Projekt</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Titel</th>
+            <th>Beskrivning</th>
+            <th>Åtgärder</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Title</td>
+                <td>@project.Description</td>
+                <td>
+                    <a asp-controller="Project" asp-action="DetaljerSpecifiktProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-primary">Visa deltagare</a>
+                    @if (User.Identity.Name == project.User.UserName)
+                    {
+                        <p class="text-success">Skapare</p>
+                    }
+                    else
+                    {
+                        <form method="post">
+                            <button asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-outline-success" type="submit">Gå med</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

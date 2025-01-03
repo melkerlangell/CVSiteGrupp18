@@ -2,6 +2,8 @@
 
 <h1>Mina Projekt</h1>
 
+<a class="btn btn-primary" asp-controller="Project" asp-action="SkapaProjekt">Skapa projekt</a>
+
 <table class="table">
     <thead>
         <tr>
@@ -17,11 +19,23 @@
                 <td>@project.Title</td>
                 <td>@project.Description</td>
                 <td>
-                    <a asp-action="RedigeraProjekt" asp-route-id="@project.ProjectId" class="btn btn-warning">Redigera</a>
-                    <form asp-action="TaBortProjekt" asp-route-id="@project.ProjectId" method="post" class="d-inline">
-                        <button type="submit" class="btn btn-danger" onclick="return confirm('Är du säker på att du vill ta bort detta projekt?')">Ta bort</button>
-                    </form>
+                    @if (User.Identity.Name == project.User.UserName)
+                    {
+                        <a asp-action="RedigeraProjekt" asp-route-id="@project.ProjectId" class="btn btn-warning">Redigera</a>
+                        <form asp-action="TaBortProjekt" asp-route-id="@project.ProjectId" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Är du säker på att du vill ta bort detta projekt?')">Ta bort</button>
+                        </form>
+
+                        <p class="text-success">Skapare</p>
+                    }else{
+                        <a asp-controller="Project" asp-action="DetaljerSpecifiktProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-primary">Visa deltagare</a>
+                        <form asp-action="LämnaProjekt" asp-route-projectId="@project.ProjectId" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger">Lämna projekt</button>
+                        </form>
+						<p class="text-secondary">Deltagare</p>
+                    }
                 </td>
+                
             </tr>
         }
     </tbody>

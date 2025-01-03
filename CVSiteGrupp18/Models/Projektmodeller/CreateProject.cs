@@ -14,5 +14,8 @@ namespace CVSiteGrupp18.Models.Projektmodeller
         [ForeignKey("User")]
         public string? UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }
+
+        [InverseProperty("Projekt")]
+        public virtual ICollection<ProjektUser>? ProjectUsers { get; set; }
     }
 }

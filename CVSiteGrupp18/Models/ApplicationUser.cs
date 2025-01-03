@@ -19,7 +19,10 @@ namespace CVSiteGrupp18.Models
 
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
-       
+        [InverseProperty("User")]
+        public virtual ICollection<ProjektUser> ProjektUsers { get; set; }
+
+
 
 
 
