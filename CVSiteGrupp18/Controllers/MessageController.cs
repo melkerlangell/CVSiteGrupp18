@@ -1,4 +1,5 @@
 ﻿using CVSiteGrupp18.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +15,14 @@ namespace CVSiteGrupp18.Controllers
             _userManager = userManager;
             _context = context;
         }
-        public IActionResult Message()
+        public IActionResult Message(string id)
         {
-            Message message = new Message();
-            return View(message);
+            ViewBag.Id = id;    
+            return View();
 
             
         }
+        
         [HttpPost]
         public async Task<IActionResult> SendMessage(Message message)
         {
@@ -31,6 +33,7 @@ namespace CVSiteGrupp18.Controllers
             await _context.SaveChangesAsync();
             return View("Message");
         }
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> MyMessages()
         {
@@ -38,5 +41,27 @@ namespace CVSiteGrupp18.Controllers
             var meddelanden = _context.Messages.Where(m => m.Reciever == user.Id).ToList();
             return View(meddelanden);
         }
+        public IActionResult test(int id)
+        {
+            return Content("test" + id);
+        }
+        [HttpPost]
+        public async Task<IActionResult> MarkAsRead(int id)
+        {
+            
+            var message = await _context.Messages.FindAsync(id);
+            if (message == null)
+            {
+                
+                return NotFound();
+            }
+
+            message.isRead = true;
+            _context.Messages.Update(message);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("MyMessages");
+        }
     }
+
 }

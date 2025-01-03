@@ -1,14 +1,36 @@
 ﻿@model Message
-<h1> Meddelande</h1>
-<form asp-action="SendMessage" method="post">
-    <label for="Sender">Användare</label>
-    <input type="text" id="Sender" name="Sender" />
 
-    <label for="Reciever">Skickas</label>
-    <input type="text" id="Reciever" name="Reciever" />
+<div class="container mt-5">
+    <h1 class="text-center mb-4">✉️ Skicka Meddelande</h1>
 
-    <label for="Content">Meddelande</label>
-    <input type="text" id="Content" name="Content" />
+    <form asp-action="SendMessage" method="post" class="row g-3">
+        <!-- Avsändare -->
+        @if (User.Identity.IsAuthenticated)
+        {
+            <input type="hidden" id="Sender" name="Sender" value="@User.Identity.Name" />
+        }
+        else
+        {
+            <div class="col-12">
+                <label for="Sender" class="form-label">Användare</label>
+                <input type="text" id="Sender" name="Sender" class="form-control" placeholder="Skriv ditt användarnamn" required />
+            </div>
+        }
 
-    <button type="submit">Skicka</button>
-</form>
+        <!-- Mottagare -->
+        <input type="hidden" value="@ViewBag.Id" id="Reciever" name="Reciever" />
+
+        <!-- Meddelandeinnehåll -->
+        <div class="col-12">
+            <label for="Content" class="form-label">Meddelande</label>
+            <textarea id="Content" name="Content" class="form-control" rows="4" placeholder="Skriv ditt meddelande här..." required></textarea>
+        </div>
+
+        <!-- Skicka-knapp -->
+        <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-send"></i> Skicka
+            </button>
+        </div>
+    </form>
+</div>

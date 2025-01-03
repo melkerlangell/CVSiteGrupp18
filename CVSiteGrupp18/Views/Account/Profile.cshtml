@@ -1,30 +1,53 @@
 ﻿@model ApplicationUser
 
-<div class="row justify-content-center">
-    <div class="col-12 col-md-4 text-center">
-        <img src="~/Profilepictures/@Model.ProfilePicture" alt="Profil bild" class="img-fluid rounded-circle border border-primary w-50" />
+<div class="container mt-5">
+    <!-- Profilbild -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-4 text-center">
+            <img src="~/Profilepictures/@Model.ProfilePicture" alt="Profil bild"
+                 class="img-fluid rounded-circle border border-primary shadow w-50" />
+        </div>
     </div>
-</div>
 
+    <!-- Användarnamn och knappar -->
+    <div class="row justify-content-center">
+        <div class="col-12 text-center">
+            <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                <!-- Användarnamn -->
+                <span class="fs-2 fw-bold">@Model.UserName</span>
 
-<div class="d-flex align-items-center gap-2">
-    <span class="fs-2 me-3">@Model.UserName</span>
-    @if(User.Identity.Name == Model.UserName)
-    {
-        <a asp-controller="Account" asp-action="EditProfile" class="btn btn-secondary">Redigera profil</a>
-        <a asp-controller="Project" asp-action="MinaProjekt" class=" btn btn-secondary">Mina projekt</a>
-		@if (Model.CV != null)
-		{
-			<a asp-controller="Cv" asp-action="RedigeraCV" class="btn btn-secondary">Redigera CV</a>
-		}
-		else
-		{
-			<a asp-controller="Cv" asp-action="SkapaCV" class="btn btn-secondary">Skapa CV</a>
-		}
-    }else{
-        <a asp-controller="Cv" asp-action="CvDetaljer" asp-route-userId="@Model.Id" class="btn btn-primary">Visa CV</a>
-    }
-   
-
-    
+                <!-- Knappar -->
+                @if (User.Identity.Name == Model.UserName)
+                {
+                    <a asp-controller="Account" asp-action="EditProfile" class="btn btn-outline-secondary">
+                        <i class="bi bi-pencil-square"></i> Redigera profil
+                    </a>
+                    <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-outline-secondary">
+                        <i class="bi bi-folder"></i> Mina projekt
+                    </a>
+                    @if (Model.CV != null)
+                    {
+                        <a asp-controller="Cv" asp-action="RedigeraCV" class="btn btn-outline-secondary">
+                            <i class="bi bi-file-earmark-text"></i> Redigera CV
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Cv" asp-action="SkapaCV" class="btn btn-outline-secondary">
+                            <i class="bi bi-file-earmark-plus"></i> Skapa CV
+                        </a>
+                    }
+                }
+                else
+                {
+                    <a asp-controller="Cv" asp-action="CvDetaljer" asp-route-userId="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-eye"></i> Visa CV
+                    </a>
+                }
+                <a asp-controller="Message" asp-action="Message" asp-route-id="@Model.Id" class="btn btn-primary">
+                    <i class="bi bi-envelope"></i> Skicka Meddelande
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

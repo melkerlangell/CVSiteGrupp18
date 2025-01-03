@@ -38,12 +38,16 @@
                              <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="AllaProjekt">Alla Projekt</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Message" asp-action="MyMessages">Mina Meddelanden</a>
+                            </li>
 
                             <li class="nav-item">
                                 <form method="post" asp-controller="Account" asp-action="Logout">
                                     <button type="submit" class="btn btn-link nav-link text-dark">Logga ut</button>
                                 </form>
                             </li>
+
 
                         }else{
                             <li class="nav-item">
