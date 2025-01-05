@@ -28,3 +28,19 @@ body {
 #EditProfilePicture:hover + #EditProfilePicturetext {
     display: block;
 }
+
+.navbar-nav {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    
+}
+
+.navbar-nav .nav-item {
+    padding: 0 30px;
+}
+
+.navbar-brand {
+    flex-grow: 1;
+    text-align: left;
+}
