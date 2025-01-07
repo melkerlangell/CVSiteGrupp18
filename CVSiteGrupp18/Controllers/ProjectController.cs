@@ -179,12 +179,13 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public async Task<IActionResult> AllaProjekt()
         {
-            var projects = await _context.Projects.ToListAsync();
+            var projects = await _context.Projects.OrderByDescending(u => u.ProjectId).ToListAsync();
             return View(projects);
         }
 
         [HttpGet]
-        public async Task<IActionResult> DetaljerSpecifiktProjekt(int projectId)
+        [Authorize]
+		public async Task<IActionResult> DetaljerSpecifiktProjekt(int projectId)
         {
             var project = await _context.Projects
                 .Include(p => p.ProjectUsers)

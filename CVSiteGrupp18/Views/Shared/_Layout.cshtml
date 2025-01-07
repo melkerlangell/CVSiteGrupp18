@@ -12,7 +12,14 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CV Sidan</a>
+                @if(User.Identity.IsAuthenticated)
+                {
+                    <p class="navbar-brand">CV Sidan - @User.Identity.Name</p>
+                }
+                else
+                {
+                    <p class="navbar-brand" >CV Sidan</p>
+                }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,14 +30,14 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserLandingPage">Hem</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Hem</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SearchUser">Sök användare</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Profile">Profil</a>
-                            </li
+                            </li>
                              <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="AllaProjekt">Alla Projekt</a>
                             </li>
@@ -47,7 +54,7 @@
 
                         }else{
                             <li class="nav-item">
-                               <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="UserLandingPage">Logga in</a>
+                               <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Logga in</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SearchUser">Sök användare</a>

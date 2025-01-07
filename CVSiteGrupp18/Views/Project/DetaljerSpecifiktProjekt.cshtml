@@ -28,9 +28,23 @@
 <ul>
     @foreach (var projectUser in Model.ProjectUsers)
     {
-        <li>@projectUser.User.UserName (@projectUser.User.Email)</li>
+        @if(projectUser.User.IsPublic){
+            <li>@projectUser.User.UserName (@projectUser.User.Email)</li>
+        }else{
+			<li>@projectUser.User.UserName</li>
+        }
+        
         @if(User.Identity.Name != projectUser.User.UserName){
-            <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
+
+            @if(projectUser.User.IsPublic){
+                <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
+            }else{
+				<p class="text-danger">Användaren har en privat profil</p>
+                @* <a asp-controller="Message" asp-action="Message" asp-route-id="@projectUser.User.Id" class="btn btn-primary">
+                    <i class="bi bi-envelope"></i> Skicka Meddelande
+                </a> *@
+            }
+            
         }else{
 			<p class="text-success">Du är med i projektet</p>
         }

@@ -20,49 +20,68 @@ namespace CVSiteGrupp18.Controllers
             this.env = env;
         }
 
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult Register(string returnUrl = null)
+		{
+			ViewData["ReturnUrl"] = returnUrl;
+			return View();
+		}
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+
+		[HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Address = model.Address, IsPublic = model.isPublic };
                 var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("UserLandingPage", "Account");
-                }
+				if (result.Succeeded)
+				{
+					await _signInManager.SignInAsync(user, isPersistent: false);
 
-                foreach (var error in result.Errors)
+					if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+					{
+						return Redirect(returnUrl);
+					}
+					else
+					{
+						return RedirectToAction("Index", "Home");
+					}
+				}
+
+				foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
 
-            return View(model);
+			ViewData["ReturnUrl"] = returnUrl;
+			return View(model);
         }
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
-            return View();
+			ViewData["ReturnUrl"] = returnUrl;
+			return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LogInViewModel model)
+        public async Task<IActionResult> Login(LogInViewModel model, string returnUrl = null)
         {
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("UserLandingPage", "Account");
-                }
+				if (result.Succeeded)
+				{
+					if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+					{
+						return Redirect(returnUrl);
+					}
+					else
+					{
+						return RedirectToAction("Index", "Home"); ;
+					}
+				}
 
                 ModelState.AddModelError(string.Empty, "Kunde inte logga in");
             }
@@ -77,11 +96,7 @@ namespace CVSiteGrupp18.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        [Authorize]
-        public IActionResult UserLandingPage()
-        {
-            return View();
-        }
+        
 
         [HttpGet]
         public IActionResult EditProfile()
@@ -187,7 +202,7 @@ namespace CVSiteGrupp18.Controllers
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            return RedirectToAction("UserLandingPage", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult SearchUser()
@@ -254,7 +269,8 @@ namespace CVSiteGrupp18.Controllers
             return View(user);
         }
 
-        [HttpGet]
+        [Authorize]
+		[HttpGet]
         public async Task<IActionResult> VisaProfilForAnnanAnvandare(string id)
         {
             var user = await _userManager.Users

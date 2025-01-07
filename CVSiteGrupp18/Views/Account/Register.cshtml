@@ -3,7 +3,7 @@
 <h2>Registrera dig</h2>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Register" method="post">
-
+    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
 
     <div class="form-group">
         <label>Användarnamn:</label>

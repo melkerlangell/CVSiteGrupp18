@@ -195,7 +195,7 @@ namespace CVSiteGrupp18.Controllers
             _context.CVs.Remove(cv);
             await _context.SaveChangesAsync();  
 
-            return RedirectToAction("UserLandingPage", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]

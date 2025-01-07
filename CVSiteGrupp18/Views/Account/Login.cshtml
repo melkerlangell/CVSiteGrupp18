@@ -1,10 +1,13 @@
 ﻿@model LogInViewModel
 
+@{
+    ViewData["Title"] = "Logga in";
+}
+
 <h2>Logga in</h2>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Login" method="post">
-    
-
+    <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
     <div class="form-group">
         <label>Användarnamn:</label>
         <input asp-for="UserName" class="form-control" />
