@@ -14,7 +14,11 @@ namespace Db.Models.CVmodeller
         [MaxLength(200)]
         public string Titel { get; set; }
 
-        [Required]
+
+        public int AntalVisningar { get; set; } = 0;    
+
+
+		[Required]
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }

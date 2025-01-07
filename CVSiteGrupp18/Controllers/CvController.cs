@@ -174,7 +174,16 @@ namespace CVSiteGrupp18.Controllers
                 return View("SaknarCv");
             }
 
-            return View(cv);
+
+            //ökar bara antalet visningar ifall någon annan besöker ens cv
+            if (currentUser.Id != userId)
+            {
+				await ÖkaAntalVisningar(cv.Id);
+			}
+				
+
+
+			return View(cv);
         }
 
 
@@ -244,8 +253,17 @@ namespace CVSiteGrupp18.Controllers
         }
 
 
-        
+		public async Task ÖkaAntalVisningar(int cvId)
+		{
+			var cv = await _context.CVs.FirstOrDefaultAsync(c => c.Id == cvId);
 
-    }
+			if (cv != null)
+			{
+				cv.AntalVisningar++;
+				await _context.SaveChangesAsync();
+			}
+		}
+
+	}
 }
 
