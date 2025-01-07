@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using CVSiteGrupp18.Models;
+using Db.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CVSiteGrupp18.Models.CVmodeller
+namespace Db.Models.CVmodeller
 {
     public class CV
     {

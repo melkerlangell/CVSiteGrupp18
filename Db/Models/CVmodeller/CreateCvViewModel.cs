@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using CVSiteGrupp18.Models.CVmodeller;
+using Db.Models.CVmodeller;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CVSiteGrupp18.Models.CV.CV
+namespace Db.Models.CV.CV
 {
     public class CreateCvViewModel
     {

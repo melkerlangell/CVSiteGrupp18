@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using CVSiteGrupp18.Models;
+using Db.Models;
 using System.Threading.Tasks;
+using Db;
 
 namespace CVSiteGrupp18.ViewComponents
 {

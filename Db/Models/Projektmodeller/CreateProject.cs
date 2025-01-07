@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CVSiteGrupp18.Models.Projektmodeller
+namespace Db.Models.Projektmodeller
 {
     public class CreateProject
     {

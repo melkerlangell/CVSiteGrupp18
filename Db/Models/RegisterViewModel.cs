@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class RegisterViewModel
     {

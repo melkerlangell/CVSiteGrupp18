@@ -1,24 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CVSiteGrupp18.Models.CVmodeller
+namespace Db.Models.CVmodeller
 {
-    public class Utbildning
+    public class Erfarenhet
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
         [MaxLength(200)]
-        public string Skola { get; set; }
+        public string Arbetsplats { get; set; }
 
-        [MaxLength(200)]
-        public string Titel { get; set; }
+        [Required]
+        [MaxLength(100)]
+        public string Roll { get; set; }
+
+        public string Beskrivning { get; set; }
 
         [Required]
         public DateTime StartDatum { get; set; }
 
-        public DateTime? SlutDatum { get; set; }
+        public DateTime? SlutDatum { get; set; } 
 
         [Required]
         [ForeignKey("Cv")]

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class Message
     {

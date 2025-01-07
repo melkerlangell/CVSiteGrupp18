@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class EditProfileViewModel
     {

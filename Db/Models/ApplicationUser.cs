@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class ApplicationUser : IdentityUser
     {
@@ -15,7 +15,7 @@ namespace CVSiteGrupp18.Models
 
         public string? ProfilePicture { get; set; } = "default.jpg";
 
-        public virtual CVSiteGrupp18.Models.CVmodeller.CV? CV { get; set; }
+        public virtual Db.Models.CVmodeller.CV? CV { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 

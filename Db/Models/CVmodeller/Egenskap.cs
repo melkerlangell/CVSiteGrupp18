@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace CVSiteGrupp18.Models.CVmodeller
+namespace Db.Models.CVmodeller
 {
     public class Egenskap
     {

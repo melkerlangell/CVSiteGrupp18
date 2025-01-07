@@ -1,6 +1,6 @@
-﻿using CVSiteGrupp18.Models;
-using CVSiteGrupp18.Models.CVmodeller;
-using CVSiteGrupp18.Models.Projektmodeller;
+﻿using Db.Models;
+using Db.Models.CVmodeller;
+using Db.Models.Projektmodeller;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

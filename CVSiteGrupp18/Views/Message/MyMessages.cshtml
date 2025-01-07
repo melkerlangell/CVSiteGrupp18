@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Message>
+﻿@model IEnumerable<Db.Models.Message>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +14,7 @@
 <body>
     <div class="container mt-5">
         <!-- Sidhuvud -->
-        <h1 class="text-center mb-4">📬🥵🥵🥵🥵 Mina Meddelanden🥵🥵🥵🥵</h1>
+        <h1 class="text-center mb-4">📬Mina Meddelanden</h1>
 
         @if (Model != null && Model.Any())
         {

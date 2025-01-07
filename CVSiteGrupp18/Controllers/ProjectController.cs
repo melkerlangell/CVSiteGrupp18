@@ -1,12 +1,15 @@
 ﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Azure.Core;
-using CVSiteGrupp18.Models;
-using CVSiteGrupp18.Models.Projektmodeller;
+using Db.Models;
+using Db.Models.Projektmodeller;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Db;
+
+
 namespace CVSiteGrupp18.Controllers
 {
     public class ProjectController : Controller

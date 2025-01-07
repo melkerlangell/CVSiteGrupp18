@@ -1,9 +1,9 @@
-﻿
-using CVSiteGrupp18.Models;
+﻿using Db.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace CVSiteGrupp18.Controllers
 {
@@ -83,7 +83,7 @@ namespace CVSiteGrupp18.Controllers
 					}
 				}
 
-                ModelState.AddModelError(string.Empty, "Kunde inte logga in");
+                ModelState.AddModelError(string.Empty, "Felaktiga inloggningsuppgifter");
             }
 
             return View(model);
@@ -202,7 +202,7 @@ namespace CVSiteGrupp18.Controllers
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Profile", "Account");
         }
 
         public IActionResult SearchUser()

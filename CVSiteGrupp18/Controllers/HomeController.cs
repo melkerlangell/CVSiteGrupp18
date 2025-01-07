@@ -1,8 +1,9 @@
 using System.Diagnostics;
-using CVSiteGrupp18.Models;
+using Db.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Db;
 
 namespace CVSiteGrupp18.Controllers
 {

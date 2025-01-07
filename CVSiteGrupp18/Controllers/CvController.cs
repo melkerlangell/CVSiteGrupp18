@@ -1,10 +1,11 @@
-﻿using CVSiteGrupp18.Models;
-using CVSiteGrupp18.Models.CV.CV;
-using CVSiteGrupp18.Models.CVmodeller;
+﻿using Db.Models;
+using Db.Models.CV.CV;
+using Db.Models.CVmodeller;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Db;
 
 namespace CVSiteGrupp18.Controllers
 {
@@ -195,7 +196,7 @@ namespace CVSiteGrupp18.Controllers
             _context.CVs.Remove(cv);
             await _context.SaveChangesAsync();  
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Profile", "Account");
         }
 
         [HttpGet]

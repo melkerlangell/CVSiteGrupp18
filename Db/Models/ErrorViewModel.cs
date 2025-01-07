@@ -1,4 +1,4 @@
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class ErrorViewModel
     {

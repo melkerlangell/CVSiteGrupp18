@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using CVSiteGrupp18.Models.Projektmodeller;
+using Db.Models.Projektmodeller;
 
-namespace CVSiteGrupp18.Models
+namespace Db.Models
 {
     public class ProjektUser
     {
