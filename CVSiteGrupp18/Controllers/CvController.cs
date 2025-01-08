@@ -176,7 +176,7 @@ namespace CVSiteGrupp18.Controllers
 
 
             //ökar bara antalet visningar ifall någon annan besöker ens cv
-            if (currentUser.Id != userId)
+            if (currentUser == null || currentUser.Id != userId)
             {
 				await ÖkaAntalVisningar(cv.Id);
 			}

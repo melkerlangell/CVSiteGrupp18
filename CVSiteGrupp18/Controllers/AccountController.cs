@@ -288,7 +288,7 @@ namespace CVSiteGrupp18.Controllers
             return View(user);
         }
 
-        [Authorize]
+        //[Authorize]
 		[HttpGet]
         public async Task<IActionResult> VisaProfilForAnnanAnvandare(string id)
         {
