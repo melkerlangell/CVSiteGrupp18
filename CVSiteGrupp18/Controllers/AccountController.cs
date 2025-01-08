@@ -249,7 +249,7 @@ namespace CVSiteGrupp18.Controllers
                 .ThenInclude(cv => cv.Erfarenheter)
             .Include(u => u.CV)
                 .ThenInclude(cv => cv.Egenskaper)
-                .Where(u => u.IsActive && (searchWords.Any(word => u.UserName.Equals(word)) && u.CV.Egenskaper.Any(e => searchWords.Any(word => e.Namn.Equals(word))) || u.UserName.Equals(searchString) || u.CV.Egenskaper.Any(e => e.Namn.Equals(searchString))))
+                .Where(u => u.IsActive && (searchWords.Any(word => u.UserName.Contains(word)) && u.CV.Egenskaper.Any(e => searchWords.Any(word => e.Namn.Equals(word))) || u.UserName.Contains(searchString) || u.CV.Egenskaper.Any(e => e.Namn.Equals(searchString))))
                 .ToListAsync();
 
             // Om en inloggad användare söker exkluderas den från sökresultatet
