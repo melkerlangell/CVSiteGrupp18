@@ -23,7 +23,7 @@
         <section class="mb-5">
             <h3 class="mb-4 text-primary">Senaste projekt</h3>
             <div class="row row-cols-1 row-cols-md-5 g-4">
-                @foreach (var p in Model.projekt)
+                @foreach (var p in Model.projekt.Where(p => p.User.IsActive))
                 {
                     <div class="col">
                         <div class="card shadow-sm h-100 d-flex flex-column">
