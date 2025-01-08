@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 
 namespace CVSiteGrupp18.Controllers
@@ -213,17 +214,22 @@ namespace CVSiteGrupp18.Controllers
 
         // tar in ett användarnamn från ett input och kollar om användaren finns & hämtar den
         [HttpGet]
-        public async Task<IActionResult> SearchUsers(string username)
+        public async Task<IActionResult> SearchUsers(string searchString)
         {
-            if (string.IsNullOrWhiteSpace(username))
+            // Kontrollerar om söksträngen är null eller bara innehåller blanksteg
+            if (string.IsNullOrWhiteSpace(searchString))
             {
-                ViewBag.Error = "Ange ett användarnamn att söka efter.";
+                ViewBag.Error = "Vänligen ange ett sökord.";
                 return View("SearchUser", null);
             }
 
+            // Delar upp söksträngen i en array av ord, delade vid varje blanksteg
+            string[] searchWords = searchString.Split(' ');
+
+            // Hämtar den inloggade användaren
             var currentUser = await _userManager.GetUserAsync(User);
 
-            // Användarnamn som innehåller sökningen
+            // Hämtar användare vars användarnamn eller kompetenser matchar något av sökorden (kompetenser heter egenskaper i databasen)
             var users = await _userManager.Users
                 .Include(u => u.CV)
                 .ThenInclude(cv => cv.Utbildningar)
@@ -231,10 +237,10 @@ namespace CVSiteGrupp18.Controllers
                 .ThenInclude(cv => cv.Erfarenheter)
             .Include(u => u.CV)
                 .ThenInclude(cv => cv.Egenskaper)
-                .Where(u => u.UserName.Contains(username))
+                .Where(u => searchWords.Any(word => u.UserName.Equals(word)) && u.CV.Egenskaper.Any(e => searchWords.Any(word => e.Namn.Equals(word))) || u.UserName.Equals(searchString) || u.CV.Egenskaper.Any(e => e.Namn.Equals(searchString)))
                 .ToListAsync();
 
-
+            // Om en inloggad användare söker exkluderas den från sökresultatet
             if (currentUser != null)
             {
                 users = users.Where(u => u.Id != currentUser.Id).ToList();
@@ -243,7 +249,7 @@ namespace CVSiteGrupp18.Controllers
             //kollar ifall det inte finns några användare
             if (users == null || users.Count == 0)
             {
-                ViewBag.Error = "Hittar inte några användare med det namnet.";
+                ViewBag.Error = "Hittade inga profiler med den sökningen.";
                 return View("SearchUser", null);
             }
 
@@ -253,6 +259,7 @@ namespace CVSiteGrupp18.Controllers
                 users = users.Where(u => u.IsPublic).ToList();
             }
 
+            // Om man inte är inloggad och den profil man söker efter inte är offentlig visas ett felmeddelande
             if (users.Count == 0)
             {
                 ViewBag.Error = "Inga profiler att visa. De kan vara privata.";
