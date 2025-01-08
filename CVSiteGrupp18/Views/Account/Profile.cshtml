@@ -9,6 +9,12 @@
         </div>
     </div>
 
+    @if (!Model.IsActive)
+    {
+        <p class="text-danger">Detta konto är inaktiverat</p>
+    }
+    
+    
     <!-- Användarnamn och knappar -->
     <div class="row justify-content-center">
         <div class="col-12 text-center">
@@ -25,6 +31,9 @@
                     <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-outline-secondary">
                         <i class="bi bi-folder"></i> Mina projekt
                     </a>
+
+                    <a asp-controller="Account" asp-action="DeactivateAccount" class="btn btn-danger">
+                        <i class="bi bi-trash"></i> Avaktivera konto </a>
                     
                     @if (Model.CV != null)
                     {

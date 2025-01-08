@@ -22,6 +22,8 @@ namespace Db.Models
         [InverseProperty("User")]
         public virtual ICollection<ProjektUser> ProjektUsers { get; set; }
 
+        public bool IsActive { get; set; } = true;
+
 
 
 

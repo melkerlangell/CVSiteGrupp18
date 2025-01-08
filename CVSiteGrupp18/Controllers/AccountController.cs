@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -69,22 +70,33 @@ namespace CVSiteGrupp18.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LogInViewModel model, string returnUrl = null)
         {
-			if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
-				if (result.Succeeded)
-				{
-					if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-					{
-						return Redirect(returnUrl);
-					}
-					else
-					{
-						return RedirectToAction("Index", "Home"); ;
-					}
-				}
+                
+                var user = await _userManager.FindByNameAsync(model.UserName);
 
-                ModelState.AddModelError(string.Empty, "Felaktiga inloggningsuppgifter");
+                if (user != null && !user.IsActive)
+                {
+                    ModelState.AddModelError(string.Empty, "Ditt konto är inaktiverat.");
+                    return View(model);
+                }
+
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+
+
+                ModelState.AddModelError(string.Empty, "Felaktiga inloggningsuppgifter.");
             }
 
             return View(model);
@@ -302,5 +314,52 @@ namespace CVSiteGrupp18.Controllers
             return View("Profile", user);
         }
 
+
+        [HttpGet]
+        public IActionResult DeactivateAccount()
+        {
+            var model = new DeactivateAccountViewModel
+            {
+                UserId = _userManager.GetUserId(User)
+            };
+            return View(model);
+        }
+
+        
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeactivateAccount(DeactivateAccountViewModel model)
+        {
+            if (!model.ConfirmDeactivation)
+            {
+                ModelState.AddModelError(string.Empty, "Bekräfta avaktivering.");
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.UserId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.IsActive = false;
+            var result = await _userManager.UpdateAsync(user);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            await _signInManager.SignOutAsync();
+
+            TempData["Message"] = "Ditt konto har avaktiverats. Du kan inte logga in längre.";
+            return RedirectToAction("Index", "Home");
+        }
     }
-}
+
+    }
+

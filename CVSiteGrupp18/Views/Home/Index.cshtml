@@ -48,7 +48,12 @@
         </section>
     }
 
-
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["Message"]
+        </div>
+    }
 
     @if (Model.CVs.Any())
     {

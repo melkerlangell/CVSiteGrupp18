@@ -1,0 +1,13 @@
+﻿@model DeactivateAccountViewModel
+
+<h2>Deactivate Account</h2>
+
+<form asp-action="DeactivateAccount" method="post">
+    <div class="form-group">
+        <label>Är du säker på att du vill avaktivera ditt konto?</label>
+        <input type="hidden" asp-for="UserId" />
+        <input type="checkbox" asp-for="ConfirmDeactivation" /> Ja, jag vill avaktivera mitt konto
+    </div>
+    <button type="submit" class="btn btn-danger">Avaktivera</button>
+    <a asp-action="Index" class="btn btn-secondary">Avbryt</a>
+</form>
