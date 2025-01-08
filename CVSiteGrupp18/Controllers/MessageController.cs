@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Db;
+using System.Security.Claims;
 
 namespace CVSiteGrupp18.Controllers
 {
@@ -16,6 +17,19 @@ namespace CVSiteGrupp18.Controllers
             _userManager = userManager;
             _context = context;
         }
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var message = await _context.Messages.FindAsync(id);
+            if (message == null || message.Reciever != User.FindFirstValue(ClaimTypes.NameIdentifier))
+            {
+                return NotFound();
+            }
+
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("MyMessages");
+        }
         public IActionResult Message(string id)
         {
             ViewBag.Id = id;    
@@ -27,12 +41,11 @@ namespace CVSiteGrupp18.Controllers
         [HttpPost]
         public async Task<IActionResult> SendMessage(Message message)
         {
-            Console.WriteLine("test");
-            Console.WriteLine(message.Content);
+            
             
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
-            return View("Message");
+            return RedirectToAction("Message", new { id = message.Reciever });
         }
         [Authorize]
         [HttpGet]
