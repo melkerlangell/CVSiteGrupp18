@@ -311,6 +311,11 @@ namespace CVSiteGrupp18.Controllers
                 return Forbid();
             }
 
+            if (!user.IsActive)
+            {
+                return Forbid();
+            }
+
             return View("Profile", user);
         }
 

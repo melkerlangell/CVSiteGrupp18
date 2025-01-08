@@ -200,6 +200,8 @@ namespace CVSiteGrupp18.Controllers
                 return NotFound();
             }
 
+            project.ProjectUsers = project.ProjectUsers.Where(u => u.User.IsActive).ToList();
+
             return View(project);  // Skicka projektet till vyn
         }
 
