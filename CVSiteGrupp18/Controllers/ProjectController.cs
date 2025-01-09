@@ -268,5 +268,25 @@ namespace CVSiteGrupp18.Controllers
         }
 
 
-    }
+		[HttpGet]
+		public async Task<IActionResult> VisaProjektForAnnanAnvandare(string id)
+		{
+			var user = await _userManager.FindByIdAsync(id);
+
+			if (user == null)
+			{
+				return NotFound();
+			}
+
+			var projects = await _context.Projects
+				.Include(p => p.ProjectUsers)
+				.ThenInclude(pu => pu.User)
+				.Where(p => p.UserId == id || p.ProjectUsers.Any(pu => pu.UserId == id))
+				.ToListAsync();
+
+			return View(projects);
+		}
+
+
+	}
 }

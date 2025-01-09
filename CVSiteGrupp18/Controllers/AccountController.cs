@@ -301,6 +301,7 @@ namespace CVSiteGrupp18.Controllers
                 .ThenInclude(cv => cv.Egenskaper)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
+
             if (user == null)
             {
                 return NotFound();
