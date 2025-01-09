@@ -1,31 +1,22 @@
 ﻿@model IEnumerable<Db.Models.Projektmodeller.CreateProject>
 
-<div>
-	<div>
-		<h2>Projekt som användaren deltar i:</h2>
-
-		<div class="row row-cols-1 row-cols-md-5 g-4">
-			<ul>
-				@foreach(var p in Model)
-				{
-					<li>
-						<div class="card">
-							<div class="card-body">
-								<h5 class="card-title">@p.Title</h5>
-								<p class="card-text">@p.Description</p>
-								<a href="@p.ExternalLink">@p.ExternalLink</a>
-								</div>
-						</div>
-					</li>
-				}
-			</ul>
-
-
-
-		</div>
-		
-
-
-	</div>
-
+<div class="container mt-4">
+    <h2 class="mb-4">Projekt som användaren deltar i:</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var p in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@p.Title</h5>
+                        <p class="card-text">@p.Description</p>
+                        @if (!string.IsNullOrEmpty(p.ExternalLink))
+                        {
+                            <a href="@p.ExternalLink" class="btn btn-primary" target="_blank">Besök länk</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
