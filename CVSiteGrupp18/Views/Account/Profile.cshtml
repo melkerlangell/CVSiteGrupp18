@@ -13,27 +13,24 @@
     {
         <p class="text-danger">Detta konto är inaktiverat</p>
     }
-    
-    
+
     <!-- Användarnamn och knappar -->
     <div class="row justify-content-center">
         <div class="col-12 text-center">
-            <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+            <div class="d-flex flex-column gap-3">
                 <!-- Användarnamn -->
                 <span class="fs-2 fw-bold">@Model.UserName</span>
 
                 <!-- Knappar -->
                 @if (User.Identity.Name == Model.UserName)
                 {
-                    <a asp-controller="Account" asp-action="EditProfile" class="btn btn-outline-secondary">
+                    <a asp-controller="Account" asp-action="EditProfile" class="btn btn-primary">
                         <i class="bi bi-pencil-square"></i> Redigera profil
                     </a>
-                    <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-outline-secondary">
+                    <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-primary">
                         <i class="bi bi-folder"></i> Mina projekt
                     </a>
 
-                    
-                    
                     @if (Model.CV != null)
                     {
                         <a asp-controller="Cv" asp-action="CvDetaljer" asp-route-userId="@Model.Id" class="btn btn-primary">
@@ -42,7 +39,7 @@
                     }
                     else
                     {
-                        <a asp-controller="Cv" asp-action="SkapaCV" class="btn btn-outline-secondary">
+                        <a asp-controller="Cv" asp-action="SkapaCV" class="btn btn-primary">
                             <i class="bi bi-file-earmark-plus"></i> Skapa CV
                         </a>
                     }
@@ -56,15 +53,14 @@
                         <i class="bi bi-eye"></i> Visa CV
                     </a>
 
-					<a asp-controller="Project" asp-action="VisaProjektForAnnanAnvandare" asp-route-id="@Model.Id" class="btn btn-primary">
-						<i class="bi bi-folder"></i> Visa projekt
+                    <a asp-controller="Project" asp-action="VisaProjektForAnnanAnvandare" asp-route-id="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-folder"></i> Visa projekt
                     </a>
 
                     <a asp-controller="Message" asp-action="Message" asp-route-id="@Model.Id" class="btn btn-primary">
                         <i class="bi bi-envelope"></i> Skicka Meddelande
                     </a>
                 }
-                
             </div>
         </div>
     </div>

@@ -1,0 +1,42 @@
+﻿@model List<Db.Models.CVmodeller.CV>
+
+@{
+    ViewData["Title"] = "Matcha CV med andra";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Matchning av CVs <strong>(@Model.Count)</strong></h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning" role="alert">
+            Ingen matchning hittad
+        </div>
+    }
+    else
+    {
+        <div class="list-group">
+            @foreach (var cv in Model)
+            {
+                <div class="list-group-item mb-3">
+                    <h2 class="h5">Användarnamn: @cv.User.UserName</h2>
+                    <h4 class="h6">@cv.Titel</h4>
+
+                    <p class="mb-2"><strong>Egenskaper:</strong></p>
+                    <ul class="list-group mb-3">
+                        @foreach (var egenskap in cv.Egenskaper)
+                        {
+                            <li class="list-group-item">@egenskap.Namn</li>
+                        }
+                    </ul>
+
+                    <div class="text-end">
+                        <a asp-action="VisaProfilForAnnanAnvandare" asp-controller="Account" asp-route-id="@cv.User.Id" class="btn btn-secondary">
+                            Visa Profil
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -264,6 +264,31 @@ namespace CVSiteGrupp18.Controllers
 			}
 		}
 
+
+		[HttpGet]
+		public async Task<IActionResult> MatchaCvMedAndra(string userId)
+		{
+
+			var userCv = await _context.CVs
+	            .Include(c => c.User)
+	            .Include(c => c.Egenskaper)
+	            .FirstOrDefaultAsync(c => c.UserId == userId);
+
+			if (userCv == null)
+			{
+				return View("SaknarCv");
+			}
+
+			var match = await _context.CVs
+				.Include(c => c.User)
+				.Include(c => c.Egenskaper)
+				.Where(c => c.UserId != userId && c.User.IsActive &&
+							c.Egenskaper.Any(e => userCv.Egenskaper.Select(ue => ue.Namn).Contains(e.Namn)))
+				.ToListAsync();
+
+			return View(match);
+		}
+
 	}
 }
 
