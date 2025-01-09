@@ -1,4 +1,7 @@
-﻿using Db.Models;
+﻿using CVSiteGrupp18.Services;
+using Db.Models;
+using Db.Models.CVmodeller;
+using Db.Models.Projektmodeller;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +16,14 @@ namespace CVSiteGrupp18.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly XmlSerializerService _xmlSerializerService;
         private readonly IWebHostEnvironment env;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IWebHostEnvironment env)
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, XmlSerializerService xmlSerializerService, IWebHostEnvironment env)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _xmlSerializerService = xmlSerializerService;
             this.env = env;
         }
 
@@ -365,7 +370,87 @@ namespace CVSiteGrupp18.Controllers
             TempData["Message"] = "Ditt konto har avaktiverats. Du kan inte logga in längre.";
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ExportProfile(string id)
+        {
+            // Hämtar användaren och väsentlig information baserat på id:t från användarmanagern
+            var user = await _userManager.Users
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Utbildningar)
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Erfarenheter)
+                .Include(u => u.CV)
+                .ThenInclude(cv => cv.Egenskaper)
+                .Include(u => u.ProjektUsers)
+                .ThenInclude(pu => pu.Projekt)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            // Om användaren inte hittas, returneras en "Not Found" med ett felmeddelande
+            if (user == null)
+            {
+                return NotFound("Profilen hittades inte.");
+            }
+
+            // Om användaren inte har ett CV, returneras ett felmeddelande om att CV saknas
+            if (user.CV == null)
+            {
+                return NotFound("Profilen har inget CV.");
+            }
+
+            // Skapar ett DTO-objekt där användarens data mappas för att inte exponera känslig information
+            // och "plattas ut" för att kunna hantera problem med proxyobjekt (Lazy Loading)
+            var userProfileDto = new UserProfileDto
+            {
+                UserName = user.UserName,
+                CVTitel = user.CV.Titel,
+                Egenskaper = user.CV.Egenskaper.Select(e => new Egenskap
+                {
+                    Id = e.Id,
+                    Namn = e.Namn,
+                }).ToList(),
+                Utbildningar = user.CV.Utbildningar.Select(u => new Utbildning
+                {
+                    Id = u.Id,
+                    Skola = u.Skola,
+                    Titel = u.Titel,
+                    StartDatum = u.StartDatum,
+                    SlutDatum = u.SlutDatum,
+                }).ToList(),
+                Erfarenheter = user.CV.Erfarenheter.Select(e => new Erfarenhet
+                {
+                    Id = e.Id,
+                    Arbetsplats = e.Arbetsplats,
+                    Roll = e.Roll,
+                    Beskrivning = e.Beskrivning,
+                    StartDatum = e.StartDatum,
+                    SlutDatum = e.SlutDatum,
+                }).ToList(),
+                Projects = user.ProjektUsers.Select(pu => new CreateProject
+                {
+                    ProjectId = pu.Projekt.ProjectId,
+                    Title = pu.Projekt.Title,
+                    Description = pu.Projekt.Description,
+                    ExternalLink = pu.Projekt.ExternalLink,
+                    StartDatum = pu.Projekt.StartDatum,
+                    SlutDatum = pu.Projekt.SlutDatum,
+                }).ToList()
+            };
+
+            // Skapar sökvägen där XML-filen ska sparas (i webbroten)
+            var filePath = Path.Combine(env.WebRootPath, "profile.xml");
+
+            // Serialiserar användarens DTO till XML och sparar det till fil
+            _xmlSerializerService.Serialize(userProfileDto, filePath);
+
+            // Öppnar en filström för att läsa den nyligen skapade XML-filen
+            var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+            // Returnerar filen som en nedladdningsbar XML-fil
+            return File(fileStream, "application/xml", "profile.xml");
+        }
     }
 
-    }
+}
 

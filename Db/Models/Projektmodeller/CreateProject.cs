@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 
 namespace Db.Models.Projektmodeller
 {
     public class CreateProject
     {
         [Key]
+        [XmlIgnore]
         public int ProjectId { get; set; }
         [Required(ErrorMessage = "Titel är obligatorisk")]
         public string Title { get; set; }
@@ -24,6 +26,7 @@ namespace Db.Models.Projektmodeller
         public virtual ApplicationUser? User { get; set; }
 
         [InverseProperty("Projekt")]
+        [XmlIgnore]
         public virtual ICollection<ProjektUser>? ProjectUsers { get; set; }
     }
 }

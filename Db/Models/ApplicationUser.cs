@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Xml.Serialization;
 using Microsoft.AspNetCore.Identity;
 
 namespace Db.Models
@@ -16,10 +17,11 @@ namespace Db.Models
         public string? ProfilePicture { get; set; } = "default.jpg";
 
         public virtual Db.Models.CVmodeller.CV? CV { get; set; }
-
+        [XmlIgnore]
         public virtual ICollection<Message> Messages { get; set; } = new List<Message>();
 
         [InverseProperty("User")]
+        [XmlIgnore]
         public virtual ICollection<ProjektUser> ProjektUsers { get; set; }
 
         public bool IsActive { get; set; } = true;

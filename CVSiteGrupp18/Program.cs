@@ -3,6 +3,8 @@ using Db.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Db;
+using System.Runtime.Serialization;
+using CVSiteGrupp18.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<XmlSerializerService>();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.

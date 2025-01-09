@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserProfileDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <UserName>joel</UserName>
+  <CVTitel>Joels CV</CVTitel>
+  <Egenskaper>
+    <Egenskap>
+      <Namn>Truckkort</Namn>
+    </Egenskap>
+    <Egenskap>
+      <Namn>Symaskinskort</Namn>
+    </Egenskap>
+    <Egenskap>
+      <Namn>asd</Namn>
+    </Egenskap>
+  </Egenskaper>
+  <Utbildningar>
+    <Utbildning>
+      <Skola>Nyköpings gymnasium</Skola>
+      <Titel>Ekonomi</Titel>
+      <StartDatum>2025-01-02T00:00:00</StartDatum>
+      <SlutDatum>2025-01-30T00:00:00</SlutDatum>
+    </Utbildning>
+  </Utbildningar>
+  <Erfarenheter>
+    <Erfarenhet>
+      <Arbetsplats>oxHamn</Arbetsplats>
+      <Roll>Hamnoperatör</Roll>
+      <Beskrivning>yessir</Beskrivning>
+      <StartDatum>2025-01-09T00:00:00</StartDatum>
+      <SlutDatum>2025-01-31T00:00:00</SlutDatum>
+    </Erfarenhet>
+  </Erfarenheter>
+  <Projects>
+    <CreateProject>
+      <Title>Slavhandel</Title>
+      <Description>Tog ett gäng slavar över atlanten och sålde dem</Description>
+      <StartDatum>2025-01-09T00:00:00</StartDatum>
+      <SlutDatum>2025-01-25T00:00:00</SlutDatum>
+    </CreateProject>
+    <CreateProject>
+      <Title>Gruvarbete</Title>
+      <Description>grävde efter guld för hand</Description>
+      <ExternalLink>http://asdasd</ExternalLink>
+      <StartDatum>2025-01-02T00:00:00</StartDatum>
+      <SlutDatum>2025-01-30T00:00:00</SlutDatum>
+    </CreateProject>
+  </Projects>
+</UserProfileDto>

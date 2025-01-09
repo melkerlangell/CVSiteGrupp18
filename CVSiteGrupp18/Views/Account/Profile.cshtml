@@ -30,6 +30,9 @@
                     <a asp-controller="Project" asp-action="MinaProjekt" class="btn btn-primary">
                         <i class="bi bi-folder"></i> Mina projekt
                     </a>
+                    <a asp-controller="Account" asp-action="ExportProfile" asp-route-id="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-envelope"></i> Ladda ner profil
+                    </a>
 
                     @if (Model.CV != null)
                     {
@@ -57,10 +60,14 @@
                         <i class="bi bi-folder"></i> Visa projekt
                     </a>
 
+                    <a asp-controller="Account" asp-action="ExportProfile" asp-route-id="@Model.Id" class="btn btn-primary">
+                        <i class="bi bi-envelope"></i> Ladda ner profil
+                    </a>
+
                     <a asp-controller="Message" asp-action="Message" asp-route-id="@Model.Id" class="btn btn-primary">
                         <i class="bi bi-envelope"></i> Skicka Meddelande
                     </a>
-                }
+                }  
             </div>
         </div>
     </div>
