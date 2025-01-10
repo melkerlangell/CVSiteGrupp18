@@ -3,6 +3,7 @@
 <div class="container mt-5">
     <div class="text-center mb-5">
         <h2 class="display-5 fw-bold">
+            <!-- Olika meddelanden beroende på om man är inloggad-->
             @if (User.Identity.IsAuthenticated)
             {
                 @($"Välkommen {User.Identity.Name}")
@@ -18,6 +19,7 @@
         }
     </div>
 
+    <!-- Ifall det finns projekt så ska de visas-->
     @if (Model.projekt.Any())
     {
         <section class="mb-5">
@@ -32,6 +34,7 @@
                                 <p class="text-muted">@p.Description</p>
                                 <a asp-controller="Project" asp-action="DetaljerSpecifiktProjekt" asp-route-projectId="@p.ProjectId" class="btn btn-primary mt-2">Visa projektinformation</a>
 
+                                <!-- Kontroll om man skapat projektet/redan med i det. Annars kan man gå med i det från homepagen-->
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     @if (User?.Identity?.Name == p.User?.UserName)
@@ -60,6 +63,7 @@
         </section>
     }
 
+    <!-- Ev felmeddelanden -->
     @if (TempData["Message"] != null)
     {
         <div class="alert alert-warning">
@@ -67,6 +71,7 @@
         </div>
     }
 
+    <!-- Ifall det finns cvn att visa -->
     @if (Model.CVs.Any())
     {
         <section>
@@ -75,7 +80,8 @@
 
 
 
-              
+                <!-- För varje cv kontrolleras det ifall det finns egenskaper, utbildningar eller erfarenheter att visa -->
+                <!-- Kontroll att användaren är aktiv så att inte inaktiva cvn visas -->
                 @foreach (var cv in Model.CVs.Where(cv => cv.User.IsActive))
                 {
                     <div class="col">
@@ -114,7 +120,7 @@
                                         }
                                     </ul>
                                 }
-
+                                <!-- För att komma till profilen som hör ihop med cv-->
                                 <div class="text-end mt-auto">
                                     <a asp-action="VisaProfilForAnnanAnvandare" asp-controller="Account" asp-route-id="@cv.User.Id" class="btn btn-secondary">Visa Profil</a>
                                 </div>

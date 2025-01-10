@@ -7,12 +7,15 @@
 <div class="container mt-5">
     <h1 class="mb-4">Matchning av CVs <strong>(@Model.Count)</strong></h1>
 
+    <!-- Ifall inget cv som matchar hittas-->
     @if (!Model.Any())
     {
         <div class="alert alert-warning" role="alert">
             Ingen matchning hittad
         </div>
     }
+
+    <!-- annars visa alla de cvn som matchar samt en länk till deras profil -->
     else
     {
         <div class="list-group">

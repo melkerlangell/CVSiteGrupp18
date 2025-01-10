@@ -9,10 +9,14 @@ using CVSiteGrupp18.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+//lägger till sql connection med lazy loading. Samt lägger migrations i detta projekt och inte i Db
 builder.Services.AddDbContext<AppDbContext>(options =>
 	options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
 		b => b.MigrationsAssembly("CVSiteGrupp18")));
 
+
+//skapar user och lägger begränsningar på lösenord
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     options.Password.RequiredLength = 8;
     options.Password.RequireNonAlphanumeric = false;

@@ -12,11 +12,13 @@ using System.Linq;
 
 namespace CVSiteGrupp18.Controllers
 {
+    //controller för allt som har med ApplicationUser och identity att göra
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly XmlSerializerService _xmlSerializerService;
+        //används för att skriva över profilbilder till wwwroot
         private readonly IWebHostEnvironment env;
 
         public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, XmlSerializerService xmlSerializerService, IWebHostEnvironment env)
@@ -40,10 +42,14 @@ namespace CVSiteGrupp18.Controllers
         {
             if (ModelState.IsValid)
             {
+                //skapar ny user
                 var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Address = model.Address, IsPublic = model.isPublic };
+
+                //skapar user
                 var result = await _userManager.CreateAsync(user, model.Password);
 				if (result.Succeeded)
 				{
+                    //loggar in som nya usern ifall registreing lyckades
 					await _signInManager.SignInAsync(user, isPersistent: false);
 
 					if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
@@ -65,6 +71,8 @@ namespace CVSiteGrupp18.Controllers
 			ViewData["ReturnUrl"] = returnUrl;
 			return View(model);
         }
+
+
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
@@ -77,15 +85,17 @@ namespace CVSiteGrupp18.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                //kontrollerar att det finns användare med det användarnamnet
                 var user = await _userManager.FindByNameAsync(model.UserName);
 
+                //kontroll för deaktiverat konto
                 if (user != null && !user.IsActive)
                 {
                     ModelState.AddModelError(string.Empty, "Ditt konto är inaktiverat.");
                     return View(model);
                 }
 
+                //försöker logga in med angivna uppgifter
                 var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
@@ -107,6 +117,7 @@ namespace CVSiteGrupp18.Controllers
             return View(model);
         }
 
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -119,6 +130,8 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public IActionResult EditProfile()
         {
+            //fyller i befintliga uppgifter
+
             var user = _userManager.GetUserAsync(User);
             var userEdit = new EditProfileViewModel
 			{
@@ -138,6 +151,7 @@ namespace CVSiteGrupp18.Controllers
         [Authorize]
         public async Task<IActionResult> EditProfile(EditProfileViewModel model)
         {
+           //ifall något är ändrat och inte tomt så uppdateras det
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -168,6 +182,7 @@ namespace CVSiteGrupp18.Controllers
 
             if (model.ProfilBild != null)
             {
+                //kontroll att profilbild är jpg, jpeg eller png för annat verkar inte fugnera
                 string ext = Path.GetExtension(model.ProfilBild.FileName).ToLower();
                 if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
                 {
@@ -189,7 +204,7 @@ namespace CVSiteGrupp18.Controllers
             }
 
 
-
+            //ändring av lösenord
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
             {
                 if (string.IsNullOrWhiteSpace(model.CurrentPassword))
@@ -219,6 +234,7 @@ namespace CVSiteGrupp18.Controllers
                 return View(model);
             }
 
+            //uppdaterar användaren
             var updateResult = await _userManager.UpdateAsync(user);
             if (!updateResult.Succeeded)
             {
@@ -229,6 +245,7 @@ namespace CVSiteGrupp18.Controllers
                 return View(model);
             }
 
+            //loggar in på nytt med de nya uppgifterna
             await _signInManager.RefreshSignInAsync(user);
             return RedirectToAction("Profile", "Account");
         }
@@ -307,6 +324,7 @@ namespace CVSiteGrupp18.Controllers
 		[HttpGet]
         public async Task<IActionResult> VisaProfilForAnnanAnvandare(string id)
         {
+            //hämtar användare på användarid med asp-route-id
             var user = await _userManager.Users
                 .Include(u => u.CV)
                 .ThenInclude(cv => cv.Utbildningar)

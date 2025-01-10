@@ -2,6 +2,7 @@
 
 <h1>Alla Projekt</h1>
 
+<!-- Tabell för att visa alla projekt -->
 <table class="table">
     <thead>
         <tr>
@@ -11,21 +12,26 @@
         </tr>
     </thead>
     <tbody>
+        <!-- Loopar igenom alla projekt skapat av aktiva användare-->
         @foreach (var project in Model.Where(p => p.User.IsActive))
         {
             <tr>
                 <td>@project.Title</td>
                 <td>@project.Description</td>
                 <td>
+                    <!-- Länk för att visa deltagare i projektet -->
                     <a asp-controller="Project" asp-action="DetaljerSpecifiktProjekt" asp-route-projectId="@project.ProjectId" class="btn btn-primary">Visa deltagare</a>
+                    <!-- Visar om användaren är skaparen av projektet -->
                     @if (User?.Identity?.Name == project.User?.UserName)
                     {
                         <p class="text-success">Skapare</p>
                     }
+                    <!-- Visar om användaren redan är med i projektet -->
                     else if (project.ProjectUsers != null && project.ProjectUsers.Any(pu => pu.User.UserName == User?.Identity?.Name))
                     {
                         <p class="text-info">Redan med i projektet</p>
                     }
+                    <!-- Knapp för att gå med i projektet -->
                     else
                     {
                         <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@project.ProjectId">

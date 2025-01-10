@@ -7,6 +7,7 @@
 <h2>Logga in</h2>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form asp-action="Login" method="post">
+    <!-- Dolt fält för att routa till action -->
     <input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]" />
     <div class="form-group">
         <label>Användarnamn:</label>

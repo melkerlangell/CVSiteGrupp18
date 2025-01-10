@@ -1,7 +1,7 @@
 ﻿@model List<Db.Models.ApplicationUser>
 
 
-
+<!-- Kort för sökformulär -->
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
@@ -24,6 +24,7 @@
     </div>
     <br />
 
+    <!-- Felmeddelande -->
     @if (!string.IsNullOrEmpty(ViewBag.Error))
     {
         <div class="alert alert-danger" role="alert">
@@ -31,6 +32,7 @@
         </div>
     }
 
+    <!-- Visar användare om sökresultat finns -->
     @if (Model != null && Model.Any())
     {
         <div class="mt-4">

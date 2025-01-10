@@ -25,6 +25,7 @@
 <h3>Deltagare i projektet:</h3>
 
 
+<!-- Tar fram alla användare kopplade till projektet -->
 <ul>
     @foreach (var projectUser in Model.ProjectUsers)
     {
@@ -36,6 +37,7 @@
         
         @if(User.Identity.Name != projectUser.User.UserName){
 
+            <!-- Har användaren en privat profil ska man inte kunna gå till dens profil från den här sidan-->
             @if(projectUser.User.IsPublic){
                 <a asp-controller="Account" asp-action="VisaProfilForAnnanAnvandare" asp-route-id="@projectUser.User.Id" class="btn btn-primary">Visa detaljer</a>
             }else{

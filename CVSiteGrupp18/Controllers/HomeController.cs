@@ -22,6 +22,8 @@ namespace CVSiteGrupp18.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
+			//hämtar 5 cv och 5 projekt
+			//blir de 5 nyaste för båda för tar på ID
 			var model = new HomeViewModel
 			{
 				CVs = await _context.CVs.Where(u => u.User.IsPublic).OrderByDescending(c => c.Id).Take(5).ToListAsync(),

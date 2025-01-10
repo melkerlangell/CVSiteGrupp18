@@ -9,6 +9,7 @@ using Db;
 
 namespace CVSiteGrupp18.Controllers
 {
+    //kontroller för allt som har med cv att göra
     public class CvController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,6 +30,9 @@ namespace CVSiteGrupp18.Controllers
             return View(viewModel);
         }
 
+
+
+        //skapacv används som post metod både vid skapandet och redigerandet
         [HttpPost]
         public async Task<IActionResult> SkapaCv(CreateCvViewModel model)
         {
@@ -43,6 +47,7 @@ namespace CVSiteGrupp18.Controllers
                 return Unauthorized();
             }
 
+            //kontrollerar ifall användaren har ett cv
             var existingCV = await _context.CVs
                                            .Include(c => c.Egenskaper)
                                            .Include(c => c.Utbildningar)
@@ -151,6 +156,7 @@ namespace CVSiteGrupp18.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
+            //hämtar cv för den profil man är inne på
             var cv = await _context.CVs
                 .Include(c => c.User) 
                 .Include(c => c.Egenskaper)
@@ -158,7 +164,7 @@ namespace CVSiteGrupp18.Controllers
                 .Include(c => c.Erfarenheter)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
 
-
+            //ifall det inte finns något cv
             if (cv == null)
             {
                 if(currentUser == null)
@@ -190,18 +196,20 @@ namespace CVSiteGrupp18.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteCv(int cvId)
         {
+            //tar nuvarande användare
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return Unauthorized();
             }
-
+            //hittar cv för användare
             var cv = await _context.CVs.FirstOrDefaultAsync(c => c.UserId == user.Id && c.Id == cvId);  
             if (cv == null)
             {
                 return NotFound();
             }
 
+            //tar bort cv
             _context.CVs.Remove(cv);
             await _context.SaveChangesAsync();  
 
@@ -211,6 +219,8 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public async Task<IActionResult> RedigeraCv()
         {
+            //hämtar all information kopplat till cv
+            //ändringar sker sedan via skapacv
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
@@ -268,7 +278,7 @@ namespace CVSiteGrupp18.Controllers
 		[HttpGet]
 		public async Task<IActionResult> MatchaCvMedAndra(string userId)
 		{
-
+            //hämtar  cv för nuvarande profil
 			var userCv = await _context.CVs
 	            .Include(c => c.User)
 	            .Include(c => c.Egenskaper)
@@ -279,6 +289,7 @@ namespace CVSiteGrupp18.Controllers
 				return View("SaknarCv");
 			}
 
+            //hittar cv med samma egenskap/er som det vars profil man är inne på
 			var match = await _context.CVs
 				.Include(c => c.User)
 				.Include(c => c.Egenskaper)

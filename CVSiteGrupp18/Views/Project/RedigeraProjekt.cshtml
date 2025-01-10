@@ -7,28 +7,36 @@
 
     <input type="hidden" asp-for="ProjectId" />
 
+    <!-- Titel-->
     <div class="form-group">
         <label for="Title">Titel</label>
         <input type="text" asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
+    <!-- Tar användarens id -->
     <input type="hidden" asp-for="UserId" />
 
+    <!-- Beskrivning -->
     <div class="form-group">
         <label for="Description">Beskrivning</label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
+    <!-- Startdatum -->
     <div>
         <label>Startdatum</label>
 		<input type="date" asp-for="StartDatum" class="form-control" />
     </div>
+
+    <!-- Slutdatum -->
     <div>
          <label>Slutdatum (valbar)</label
          <input type="date" asp-for="SlutDatum" class="form-control" />
     </div>
+
+    <!-- Länk-->
     <div>
         <label>Länk till projekt (valbar)</label>
         <input type="text" asp-for="ExternalLink" />

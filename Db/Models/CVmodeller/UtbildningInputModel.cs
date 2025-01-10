@@ -11,7 +11,7 @@ namespace Db.Models.CVmodeller
         [MaxLength(200)]
         public string Titel { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange startdatum")]
         public DateTime Startdatum { get; set; }
 
         public DateTime? Slutdatum { get; set; }

@@ -15,7 +15,7 @@ namespace Db.Models.CVmodeller
         [Required(ErrorMessage = "Beskrivning är obligatoriskt.")]
         public string Beskrivning { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange stardatum")]
         public DateTime Startdatum { get; set; }
 
         public DateTime? Slutdatum { get; set; }

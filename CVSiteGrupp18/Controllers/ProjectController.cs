@@ -12,6 +12,7 @@ using Db;
 
 namespace CVSiteGrupp18.Controllers
 {
+    //kontroller för allt som har med projekt att göra
     public class ProjectController : Controller
     {
 
@@ -52,6 +53,7 @@ namespace CVSiteGrupp18.Controllers
 
             model.UserId = user.Id; 
 
+            //lägger till http ifall bifogade länken saknar det
             if(model.ExternalLink != null)
             {
                 if (model.ExternalLink.Contains("http://") || model.ExternalLink.Contains("https://"))
@@ -65,10 +67,11 @@ namespace CVSiteGrupp18.Controllers
             }
 
             
-
+            //lägger till projekt
             _context.Projects.Add(model);
             await _context.SaveChangesAsync();
 
+            //skapar en ny instans i sambandstabellen
             var projectUser = new ProjektUser
             {
                 ProjectId = model.ProjectId,                  
@@ -91,6 +94,7 @@ namespace CVSiteGrupp18.Controllers
                 return Unauthorized();
             }
 
+            //hämtar projekt som nuvarande användare skapat eller gåt med i
             var projects = await _context.Projects
                 .Include(p => p.ProjectUsers)
                 .ThenInclude(pu => pu.User)
@@ -103,6 +107,7 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public async Task<IActionResult> RedigeraProjekt(int id)
         {
+            //hämtar projekt på parameter id via asp-route-id
             var project = await _context.Projects
                 .FirstOrDefaultAsync(p => p.ProjectId == id);
 
@@ -133,14 +138,14 @@ namespace CVSiteGrupp18.Controllers
                         return NotFound();
                     }
 
-                    
+                    //uppdaterar med inmatningsdata
                     existingProject.Title = model.Title;
                     existingProject.Description = model.Description;
                     existingProject.StartDatum = model.StartDatum;
                     existingProject.SlutDatum = model.SlutDatum;
                     existingProject.ExternalLink = model.ExternalLink;
 
-
+                    //sparar
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -166,12 +171,14 @@ namespace CVSiteGrupp18.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TaBortProjekt(int id)
         {
+            //hittar projekt med asp-route-id id
             var projekt = await _context.Projects.FindAsync(id);
             if (projekt == null) 
             {
                 return NotFound();
             }
 
+            //tar bort
             _context.Projects.Remove(projekt);
             await _context.SaveChangesAsync();
 
@@ -182,6 +189,7 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public async Task<IActionResult> AllaProjekt()
         {
+            //hämtar alla projekt
             var projects = await _context.Projects.OrderByDescending(u => u.ProjectId).ToListAsync();
             return View(projects);
         }
@@ -190,6 +198,7 @@ namespace CVSiteGrupp18.Controllers
         [Authorize]
 		public async Task<IActionResult> DetaljerSpecifiktProjekt(int projectId)
         {
+            //hämtar projektdata inkl data om de användare som är knutna till projektet
             var project = await _context.Projects
                 .Include(p => p.ProjectUsers)
                 .ThenInclude(pu => pu.User)  // Inkludera användaren som är med i projektet
@@ -200,6 +209,7 @@ namespace CVSiteGrupp18.Controllers
                 return NotFound();
             }
 
+            //checkar så alla som är med är aktiva
             project.ProjectUsers = project.ProjectUsers.Where(u => u.User.IsActive).ToList();
 
             return View(project);  // Skicka projektet till vyn
@@ -260,7 +270,7 @@ namespace CVSiteGrupp18.Controllers
                 return NotFound("Du är inte med i projektet.");
             }
 
-
+            //tar bort användaren från projektet
             _context.ProjektUsers.Remove(projectUser);
             await _context.SaveChangesAsync();
 

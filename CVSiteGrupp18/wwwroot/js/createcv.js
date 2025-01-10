@@ -1,14 +1,26 @@
-﻿const addKompetens = () => {
+﻿//javascript för att lägga till och ta bort element vid skapande och redigering av cv
+
+
+//funktion för att lägga till en ny kompetens
+const addKompetens = () => {
+    //hämtar avsnittet för kompetenser
     const container = document.getElementById('kompetenser-container');
+
+    //index för antal kompetenser
     const index = container.children.length;
+
+    //skapar nytt element, samma som för view 
     const newField = `
             <div class="input-group mb-2">
                 <input name="Kompetenser[${index}]" class="form-control" />
                 <button type="button" class="btn btn-danger" onclick="removeField(this)">Ta bort</button>
             </div>`;
+    //injicerar det nya elementet
     container.insertAdjacentHTML('beforeend', newField);
 }
 
+
+//funktion för att lägga till ny utbildning
 const addUtbildning = () => {
     const container = document.getElementById('utbildningar-container');
     const index = container.children.length;
@@ -35,6 +47,7 @@ const addUtbildning = () => {
     container.insertAdjacentHTML('beforeend', newField);
 }
 
+//funktion för att lägga till arbetserfarenhet
 const addErfarenhet = () => {
     const container = document.getElementById('erfarenheter-container');
     const index = container.children.length;
@@ -65,12 +78,14 @@ const addErfarenhet = () => {
     container.insertAdjacentHTML('beforeend', newField);
 }
 
+//funktion för att ta bort ett element
 const removeField = (btn) => {
     const field = btn.parentElement;
     field.remove();
     updateIndexes();
 }
 
+//uppdatera indexeringen mot databasen, används efter borttagning av fält för att det ska bli rätt indexering
 const updateIndexes = () => {
     const kompetenser = document.querySelectorAll('#kompetenser-container .input-group');
     kompetenser.forEach((field, index) => {

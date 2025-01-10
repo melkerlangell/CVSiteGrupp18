@@ -10,17 +10,17 @@ namespace Db.Models.CVmodeller
         [XmlIgnore]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Vänligen ange arbetsplats")]
         [MaxLength(200)]
         public string Arbetsplats { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange roll")]
         [MaxLength(100)]
         public string Roll { get; set; }
 
         public string Beskrivning { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange stardatum")]
         public DateTime StartDatum { get; set; }
 
         public DateTime? SlutDatum { get; set; } 

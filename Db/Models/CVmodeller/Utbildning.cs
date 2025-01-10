@@ -10,14 +10,14 @@ namespace Db.Models.CVmodeller
         [XmlIgnore]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange skola")]
         [MaxLength(200)]
         public string Skola { get; set; }
 
         [MaxLength(200)]
         public string Titel { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Vänligen ange startdatum")]
         public DateTime StartDatum { get; set; }
 
         public DateTime? SlutDatum { get; set; }

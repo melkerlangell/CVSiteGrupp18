@@ -3,17 +3,22 @@
     ViewData["Title"] = "CV";
 }
 
+<!-- js som hanterar tilläggning av nya element -->
 <script defer src="~/js/createcv.js"></script>
 
-@* <h1 class="text-center my-4"></h1> *@
+<!-- Elementen sköts med indexering tillsammans med javascripten-->
+
 
 <div asp-validation-summary="All" class="text-danger"></div>
 <form id="cv-form" method="post" asp-action="SkapaCv" class="container">
+
+    <!-- Namn -->
     <div class="mb-3">
         <label for="Titel" class="form-label">Ditt fullständiga namn:</label>
         <input asp-for="Titel" class="form-control" id="Titel" />
     </div>
 
+    <!-- Egenskaper/kompetenser -->
     <div class="mb-3">
         <label class="form-label">Kompetenser:</label>
         <div id="kompetenser-container">
@@ -28,6 +33,8 @@
         <button type="button" class="btn btn-primary" onclick="addKompetens()">Lägg till kompetens</button>
     </div>
 
+
+    <!-- Utbildningar -->
     <div class="mb-3">
         <label class="form-label">Utbildning:</label>
         <div id="utbildningar-container">
@@ -57,6 +64,8 @@
         <button type="button" class="btn btn-primary" onclick="addUtbildning()">Lägg till utbildning</button>
     </div>
 
+
+    <!-- Efarenheter-->
     <div class="mb-3">
         <label class="form-label">Arbetslivserfarenhet:</label>
         <div id="erfarenheter-container">
