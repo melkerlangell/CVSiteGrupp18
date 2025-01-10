@@ -34,10 +34,14 @@
 
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@p.ProjectId" class="mt-3">
+									
+                                        <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@p.ProjectId" class="mt-3">
 
-                                        <button class="btn btn-outline-success" type="submit">Gå med</button>
-                                    </form>
+                                            <button class="btn btn-outline-success" type="submit">Gå med</button>
+                                        </form>
+
+
+                                    
                                 }
                             </div>
                         </div>

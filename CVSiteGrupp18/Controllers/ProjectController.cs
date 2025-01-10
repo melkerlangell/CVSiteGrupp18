@@ -224,7 +224,7 @@ namespace CVSiteGrupp18.Controllers
 
             if (existingProjectUser != null)
             {
-                return BadRequest("Du är redan med i projektet.");
+                return View("RedanMedIProjekt");
             }
 
             // Lägg till användaren i projektet
