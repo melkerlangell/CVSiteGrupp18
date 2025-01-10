@@ -34,12 +34,20 @@
 
                                 @if (User.Identity.IsAuthenticated)
                                 {
-									
-                                        <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@p.ProjectId" class="mt-3">
-
+                                    @if (User?.Identity?.Name == p.User?.UserName)
+                                    {
+                                        <p class="text-success">Skapare</p>
+                                    }
+                                    else if (p.ProjectUsers != null && p.ProjectUsers.Any(pu => pu.User.UserName == User?.Identity?.Name))
+                                    {
+                                        <p class="text-info">Redan med i projektet</p>
+                                    }
+                                    else
+                                    {
+                                        <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@p.ProjectId">
                                             <button class="btn btn-outline-success" type="submit">Gå med</button>
                                         </form>
-
+                                    }
 
                                     
                                 }
