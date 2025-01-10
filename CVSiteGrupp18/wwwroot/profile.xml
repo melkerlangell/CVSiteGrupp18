@@ -1,37 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserProfileDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <UserName>AdamRosing</UserName>
-  <CVTitel>Adam Rosing</CVTitel>
+  <UserName>Nico22</UserName>
+  <CVTitel>Nicolina Häggblad</CVTitel>
   <Egenskaper>
     <Egenskap>
-      <Namn>.NET</Namn>
+      <Namn>c#</Namn>
     </Egenskap>
     <Egenskap>
-      <Namn>C#</Namn>
-    </Egenskap>
-    <Egenskap>
-      <Namn>JAVA</Namn>
-    </Egenskap>
-    <Egenskap>
-      <Namn>SQL</Namn>
+      <Namn>Blodprov</Namn>
     </Egenskap>
   </Egenskaper>
   <Utbildningar>
     <Utbildning>
       <Skola>Örebro Universitet</Skola>
-      <Titel>Systemvetenskapliga programmet</Titel>
-      <StartDatum>2023-08-29T00:00:00</StartDatum>
-      <SlutDatum>2026-01-17T00:00:00</SlutDatum>
+      <Titel>Sjuksköterska</Titel>
+      <StartDatum>2023-01-01T00:00:00</StartDatum>
+      <SlutDatum>2026-05-01T00:00:00</SlutDatum>
     </Utbildning>
   </Utbildningar>
   <Erfarenheter>
     <Erfarenhet>
-      <Arbetsplats>Nexer Group</Arbetsplats>
-      <Roll>Internship</Roll>
-      <Beskrivning>Utvecklade en applikation åt Örebro Kommun med hjälp av konsulter på Nexer</Beskrivning>
-      <StartDatum>2025-01-17T00:00:00</StartDatum>
-      <SlutDatum>2025-06-04T00:00:00</SlutDatum>
+      <Arbetsplats>Örebo Universitetssjukhus</Arbetsplats>
+      <Roll>Sjuksköterska</Roll>
+      <Beskrivning>Jobbar på akutvårdsavdelningen</Beskrivning>
+      <StartDatum>2026-07-01T00:00:00</StartDatum>
+      <SlutDatum xsi:nil="true" />
     </Erfarenhet>
   </Erfarenheter>
-  <Projects />
+  <Projects>
+    <CreateProject>
+      <Title>Hitler</Title>
+      <Description>joiwe</Description>
+      <StartDatum>2001-01-01T00:00:00</StartDatum>
+      <SlutDatum xsi:nil="true" />
+    </CreateProject>
+  </Projects>
 </UserProfileDto>

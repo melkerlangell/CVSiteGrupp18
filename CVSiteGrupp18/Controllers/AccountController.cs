@@ -119,7 +119,17 @@ namespace CVSiteGrupp18.Controllers
         [HttpGet]
         public IActionResult EditProfile()
         {
-            return View();
+            var user = _userManager.GetUserAsync(User);
+            var userEdit = new EditProfileViewModel
+			{
+				UserName = user.Result.UserName,
+				Email = user.Result.Email,
+				Address = user.Result.Address,
+				IsPublic = user.Result.IsPublic
+			};
+
+
+			return View(userEdit);
         }
 
 
