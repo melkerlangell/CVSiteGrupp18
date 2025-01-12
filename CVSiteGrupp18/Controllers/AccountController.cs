@@ -412,7 +412,6 @@ namespace CVSiteGrupp18.Controllers
                 .ThenInclude(cv => cv.Egenskaper)
                 .Include(u => u.ProjektUsers)
                 .ThenInclude(pu => pu.Projekt)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             // Om användaren inte hittas, returneras en "Not Found" med ett felmeddelande
