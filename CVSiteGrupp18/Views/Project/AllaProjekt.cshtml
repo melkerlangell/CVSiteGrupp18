@@ -26,12 +26,10 @@
                     {
                         <p class="text-success">Skapare</p>
                     }
-                    <!-- Visar om användaren redan är med i projektet -->
                     else if (project.ProjectUsers != null && project.ProjectUsers.Any(pu => pu.User.UserName == User?.Identity?.Name))
                     {
                         <p class="text-info">Redan med i projektet</p>
                     }
-                    <!-- Knapp för att gå med i projektet -->
                     else
                     {
                         <form method="post" asp-controller="Project" asp-action="GåMedProjekt" asp-route-projectId="@project.ProjectId">
