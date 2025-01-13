@@ -52,7 +52,7 @@
                                         </form>
                                     }
 
-                                    
+
                                 }
                             </div>
                         </div>
@@ -84,49 +84,53 @@
                 <!-- Kontroll att användaren är aktiv så att inte inaktiva cvn visas -->
                 @foreach (var cv in Model.CVs.Where(cv => cv.User.IsActive))
                 {
-                    <div class="col">
-                        <div class="card shadow-sm h-100 d-flex flex-column">
-                            <div class="card-body d-flex flex-column">
-                                <h4 class="fw-semibold">@cv.Titel</h4>
-                                @if (cv.Egenskaper.Any())
-                                {
-                                    <h5 class="mt-3">Egenskaper</h5>
-                                    <ul class="list-unstyled ps-3">
-                                        @foreach (var egenskap in cv.Egenskaper)
-                                        {
-                                            <li>@egenskap.Namn</li>
-                                        }
-                                    </ul>
-                                }
+                    @if (cv.User.UserName != User?.Identity.Name)
+                    {
+                        <div class="col">
+                            <div class="card shadow-sm h-100 d-flex flex-column">
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="fw-semibold">@cv.Titel</h4>
+                                    @if (cv.Egenskaper.Any())
+                                    {
+                                        <h5 class="mt-3">Egenskaper</h5>
+                                        <ul class="list-unstyled ps-3">
+                                            @foreach (var egenskap in cv.Egenskaper)
+                                            {
+                                                <li>@egenskap.Namn</li>
+                                            }
+                                        </ul>
+                                    }
 
-                                @if (cv.Utbildningar.Any())
-                                {
-                                    <h5 class="mt-3">Utbildningar</h5>
-                                    <ul class="list-unstyled ps-3">
-                                        @foreach (var utbildning in cv.Utbildningar)
-                                        {
-                                            <li>@utbildning.Skola: @utbildning.Titel</li>
-                                        }
-                                    </ul>
-                                }
+                                    @if (cv.Utbildningar.Any())
+                                    {
+                                        <h5 class="mt-3">Utbildningar</h5>
+                                        <ul class="list-unstyled ps-3">
+                                            @foreach (var utbildning in cv.Utbildningar)
+                                            {
+                                                <li>@utbildning.Skola: @utbildning.Titel</li>
+                                            }
+                                        </ul>
+                                    }
 
-                                @if (cv.Erfarenheter.Any())
-                                {
-                                    <h5 class="mt-3">Arbetserfarenheter</h5>
-                                    <ul class="list-unstyled ps-3">
-                                        @foreach (var erfarenhet in cv.Erfarenheter)
-                                        {
-                                            <li>@erfarenhet.Arbetsplats: @erfarenhet.Roll</li>
-                                        }
-                                    </ul>
-                                }
-                                <!-- För att komma till profilen som hör ihop med cv-->
-                                <div class="text-end mt-auto">
-                                    <a asp-action="VisaProfilForAnnanAnvandare" asp-controller="Account" asp-route-id="@cv.User.Id" class="btn btn-secondary">Visa Profil</a>
+                                    @if (cv.Erfarenheter.Any())
+                                    {
+                                        <h5 class="mt-3">Arbetserfarenheter</h5>
+                                        <ul class="list-unstyled ps-3">
+                                            @foreach (var erfarenhet in cv.Erfarenheter)
+                                            {
+                                                <li>@erfarenhet.Arbetsplats: @erfarenhet.Roll</li>
+                                            }
+                                        </ul>
+                                    }
+                                    <!-- För att komma till profilen som hör ihop med cv-->
+                                    <div class="text-end mt-auto">
+                                        <a asp-action="VisaProfilForAnnanAnvandare" asp-controller="Account" asp-route-id="@cv.User.Id" class="btn btn-secondary">Visa Profil</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
+                   
                 }
             
             </div>
