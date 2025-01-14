@@ -26,5 +26,9 @@ namespace Db.Models
 
         [Required(ErrorMessage = "Ange om din profil är publik")]
         public bool isPublic { get; set; }
+
+        [Required(ErrorMessage ="Ange ditt telefonnummer")]
+		[RegularExpression(@"^\d{3}-\d{7}$", ErrorMessage = "Telefonnumret måste vara i formatet 073-1234567")]
+		public string TelefonNummer { get; set; }
     }
 }

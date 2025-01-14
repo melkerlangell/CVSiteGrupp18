@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Serialization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Db.Models
 {
@@ -13,6 +14,7 @@ namespace Db.Models
         [PersonalData]
         public bool IsPublic { get; set; }
 
+		public string TelefonNummer { get; set; }
 
         public string? ProfilePicture { get; set; } = "default.jpg";
 

@@ -43,7 +43,7 @@ namespace CVSiteGrupp18.Controllers
             if (ModelState.IsValid)
             {
                 //skapar ny user
-                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Address = model.Address, IsPublic = model.isPublic };
+                var user = new ApplicationUser { UserName = model.UserName, Email = model.Email, Address = model.Address, IsPublic = model.isPublic, TelefonNummer = model.TelefonNummer };
 
                 //skapar user
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -138,7 +138,8 @@ namespace CVSiteGrupp18.Controllers
 				UserName = user.Result.UserName,
 				Email = user.Result.Email,
 				Address = user.Result.Address,
-				IsPublic = user.Result.IsPublic
+				IsPublic = user.Result.IsPublic,
+                TelefonNummer = user.Result.TelefonNummer
 			};
 
 
@@ -166,6 +167,11 @@ namespace CVSiteGrupp18.Controllers
             if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
             {
                 user.Email = model.Email;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.TelefonNummer) && model.TelefonNummer != user.TelefonNummer)
+            {
+                user.TelefonNummer = model.TelefonNummer;
             }
 
             if (!string.IsNullOrWhiteSpace(model.Address) && model.Address != user.Address)

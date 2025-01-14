@@ -20,6 +20,10 @@
             <div class="d-flex flex-column gap-3">
                 <!-- Användarnamn -->
                 <span class="fs-2 fw-bold">@Model.UserName</span>
+                @if(User.Identity.Name != Model.UserName){
+                    <p><strong>Telefonnummer: @Model.TelefonNummer</strong></p>
+                    <p><strong>Email: @Model.Email</strong></p>
+                }
 
                 <!-- Knappar -->
                 @if (User.Identity.Name == Model.UserName)

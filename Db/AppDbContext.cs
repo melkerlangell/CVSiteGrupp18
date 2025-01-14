@@ -44,7 +44,8 @@ namespace CVSiteGrupp18
                 .HasOne(pu => pu.User)
                 .WithMany(u => u.ProjektUsers)
                 .HasForeignKey(pu => pu.UserId);
-        }
+
+		}
 
     }
 }

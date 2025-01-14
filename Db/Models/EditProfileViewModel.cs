@@ -12,6 +12,9 @@ namespace Db.Models
         [MaxLength(100, ErrorMessage = "Adressen får inte vara längre än 100 tecken")]
         public string? Address { get; set; }
 
+		[RegularExpression(@"^\d{3}-\d{7}$", ErrorMessage = "Telefonnumret måste vara i formatet 073-1234567")]
+		public string? TelefonNummer { get; set; }
+
         public bool IsPublic { get; set; }
 
         public IFormFile? ProfilBild { get; set; }
