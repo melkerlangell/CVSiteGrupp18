@@ -33,7 +33,7 @@ namespace CVSiteGrupp18.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> SkapaProjekt(CreateProject model)
         {
             if (!ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace CVSiteGrupp18.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> RedigeraProjekt(int id, CreateProject model)
         {
             if (id != model.ProjectId)
@@ -168,7 +168,7 @@ namespace CVSiteGrupp18.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> TaBortProjekt(int id)
         {
             //hittar projekt med asp-route-id id
