@@ -13,9 +13,6 @@ namespace Db.Models
         public string Address { get; set; }
         [PersonalData]
         public bool IsPublic { get; set; }
-
-		public string TelefonNummer { get; set; }
-
         public string? ProfilePicture { get; set; } = "default.jpg";
 
         public virtual Db.Models.CVmodeller.CV? CV { get; set; }
