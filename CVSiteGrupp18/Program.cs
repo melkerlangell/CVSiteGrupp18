@@ -31,6 +31,25 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<XmlSerializerService>();
 
 var app = builder.Build();
+
+// Skapar automatiskt databasen vid start med den senaste migrationen
+using (var s = app.Services.CreateScope())
+{
+	var service = s.ServiceProvider;
+	try
+	{
+		var context = service.GetRequiredService<AppDbContext>();
+		context.Database.Migrate();
+	}
+	catch (Exception ex)
+	{
+		var logger = service.GetRequiredService<ILogger<Program>>();
+		logger.LogError(ex, "Error vid skapandet av databasen.");
+	}
+}
+
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
